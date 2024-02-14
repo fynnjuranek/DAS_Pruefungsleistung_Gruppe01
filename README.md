@@ -20,7 +20,8 @@ The following guides illustrate how to use some features concretely:
 * [Accessing Data with MongoDB](https://spring.io/guides/gs/accessing-data-mongodb)
 * [Building a Gateway](https://spring.io/guides/gs/gateway)
 * [Messaging with JMS](https://spring.io/guides/gs/messaging-jms)
-
+* [Connecting Spring JPA with MariaDB](https://www.javaguides.net/2020/01/spring-boot-mariadb-crud-example-tutorial.html)
+ sonst noch ein youtube video: (https://www.youtube.com/watch?v=Pf_nw4NWQLg).
 
 ### Additional Links
 
@@ -35,6 +36,8 @@ These additional references should also help you:
 * Möglicherweise müssen Benutzername und Passwort angegeben werden. Dann kann man einfach für beide Sachen "root" benutzen
   (Das muss in "application.properties" angegeben werden)
 * Für MongoDB muss folgendes installiert werden: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/
+* Die Datenbanken können auch in die IDE eingebunden werden, wodurch die Verbindung zwischen Spring und
+    der jeweiligen Datenbank erleichtert. (https://www.jetbrains.com/help/idea/connecting-to-a-database.html#data_source)
 * Neue Module können dem Projekt folgend hinzugefügt werden:
 File -> Project Structure -> Modules -> + (oben links) und dann einfach ein neues Projekt/Modul erstellen. Dabei unbedingt
 drauf achten, dass der Speicherort "DAS_Prüfungsleistung_Gruppe01" bleibt. Das ganze ist dann so wie die Projekterstellung
