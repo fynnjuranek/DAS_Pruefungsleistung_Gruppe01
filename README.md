@@ -8,9 +8,12 @@ For further reference, please consider the following sections:
 * [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.2.2/maven-plugin/reference/html/)
 * [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.2.2/maven-plugin/reference/html/#build-image)
 * [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/3.2.2/reference/htmlsingle/index.html#using.devtools)
+* [Eureka Server](https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/#spring-cloud-eureka-server)
+* [Eureka Discovery Client](https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/#service-discovery-eureka-clients)
 * [OpenFeign](https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/)
 * [Cloud Bootstrap](https://docs.spring.io/spring-cloud-commons/docs/current/reference/html/)
 * [Spring Data JPA](https://docs.spring.io/spring-boot/docs/3.2.2/reference/htmlsingle/index.html#data.sql.jpa-and-spring-data)
+* 
 
 ### Guides
 
@@ -22,6 +25,8 @@ The following guides illustrate how to use some features concretely:
 * [Messaging with JMS](https://spring.io/guides/gs/messaging-jms)
 * [Connecting Spring JPA with MariaDB](https://www.javaguides.net/2020/01/spring-boot-mariadb-crud-example-tutorial.html)
  sonst noch ein youtube video: (https://www.youtube.com/watch?v=Pf_nw4NWQLg).
+* [Eureka and OpenFeign](https://www.baeldung.com/spring-cloud-netflix-eureka)
+* [Service Registration and Discovery with Eureka and Spring Cloud](https://spring.io/guides/gs/service-registration-and-discovery/)
 
 ### Additional Links
 
