@@ -18,7 +18,7 @@ For further reference, please consider the following sections:
 ### Guides
 
 The following guides illustrate how to use some features concretely:
-* [Beginner's Guide to Spring Cloud](https://www.youtube.com/watch?v=aO3W-lYnw-o) (youtube video)
+* [Beginner's Guide to Spring Cloud](https://www.youtube.com/watch?v=aO3W-lYnw-o)(youtube video)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 * [Accessing Data with MongoDB](https://spring.io/guides/gs/accessing-data-mongodb)
 * [Building a Gateway](https://spring.io/guides/gs/gateway)
