@@ -41,4 +41,5 @@ These additional references should also help you:
 * Neue Module können dem Projekt folgend hinzugefügt werden:
 File -> Project Structure -> Modules -> + (oben links) und dann einfach ein neues Projekt/Modul erstellen. Dabei unbedingt
 drauf achten, dass der Speicherort "DAS_Prüfungsleistung_Gruppe01" bleibt. Das ganze ist dann so wie die Projekterstellung
-in Eclipse.
+in Eclipse. Beim anlegen drauf achten den "Spring initialzr" zu benutzen, dadurch wird die Auswahl von Dependencies sehr leicht. 
+Auch zum späteren Zeitpunkt kann man dann in der "pom.xml" auf "edit starters" klicken und darüber dann neue Spring-Dependencies hinzufügen.
