@@ -40,6 +40,8 @@ These additional references should also help you:
 * Bei MariaDB darf man dann nicht vergessen die jeweiligen Server über "xampp" zu starten!
 * Möglicherweise müssen Benutzername und Passwort angegeben werden. Dann kann man einfach für beide Sachen "root" benutzen
   (Das muss in "application.properties" angegeben werden)
+* Bei MariaDB hat bei mir das Automatische generieren des Primary Keys nur hiermit funktioniert: @GeneratedValue(strategy = GenerationType.IDENTITY)
+und nicht hiermit @GeneratedValue(strategy = GenerationType.AUTO)
 * Für MongoDB muss folgendes installiert werden: https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/
 * Die Datenbanken können auch in die IDE eingebunden werden, wodurch die Verbindung zwischen Spring und
     der jeweiligen Datenbank erleichtert. (https://www.jetbrains.com/help/idea/connecting-to-a-database.html#data_source)
@@ -51,3 +53,8 @@ Auch zum späteren Zeitpunkt kann man dann in der "pom.xml" auf "edit starters" 
 * In manchen Tutorials werden ".yml"-Konfigurationsdateien benutzt, das ist veraltet und jetzt wird dafür "application.properties"
 benutzt.
 * Bei Eureka gibt es einen Fehler, durch den der Client nicht gestartet werden kann. [Das ist der fix](https://stackoverflow.com/questions/77684538/how-to-solve-netflix-eureka-client-error-in-spring-boot-3-2-0-and-java-17)
+* OpenFeign wird benutzt um auf andere RestController (microservices) zu verweisen. In dem jeweiligen Service wird dann
+der neue Request verarbeitet.
+  * [Das hat mir ein bisschen geholfen](https://medium.com/@vegabryam40/simplifying-microservice-communication-exploring-openfeign-and-its-integration-with-spring-f53939a2c861)
+  * [Die erste hälfte von dem Video war auch sehr hilfreich](https://www.youtube.com/watch?v=3NcmlrumSOc)
+* 
