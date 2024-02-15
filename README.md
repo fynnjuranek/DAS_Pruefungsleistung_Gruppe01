@@ -24,7 +24,7 @@ The following guides illustrate how to use some features concretely:
 * [Building a Gateway](https://spring.io/guides/gs/gateway)
 * [Messaging with JMS](https://spring.io/guides/gs/messaging-jms)
 * [Connecting Spring JPA with MariaDB](https://www.javaguides.net/2020/01/spring-boot-mariadb-crud-example-tutorial.html)
- sonst noch ein youtube video: (https://www.youtube.com/watch?v=Pf_nw4NWQLg).
+ sonst noch ein YouTube video: (https://www.youtube.com/watch?v=Pf_nw4NWQLg).
 * [Eureka and OpenFeign](https://www.baeldung.com/spring-cloud-netflix-eureka)
 * [Service Registration and Discovery with Eureka and Spring Cloud](https://spring.io/guides/gs/service-registration-and-discovery/)
 
@@ -44,7 +44,10 @@ These additional references should also help you:
 * Die Datenbanken können auch in die IDE eingebunden werden, wodurch die Verbindung zwischen Spring und
     der jeweiligen Datenbank erleichtert. (https://www.jetbrains.com/help/idea/connecting-to-a-database.html#data_source)
 * Neue Module können dem Projekt folgend hinzugefügt werden:
-File -> Project Structure -> Modules -> + (oben links) und dann einfach ein neues Projekt/Modul erstellen. Dabei unbedingt
-drauf achten, dass der Speicherort "DAS_Prüfungsleistung_Gruppe01" bleibt. Das ganze ist dann so wie die Projekterstellung
-in Eclipse. Beim anlegen drauf achten den "Spring initialzr" zu benutzen, dadurch wird die Auswahl von Dependencies sehr leicht. 
+File → Project Structure → Modules → + (oben links) und dann einfach ein neues Projekt/Modul erstellen. Dabei unbedingt
+darauf achten, dass der Speicherort "DAS_Prüfungsleistung_Gruppe01" bleibt. Das Ganze ist dann so wie die Projekterstellung
+in Eclipse. Beim Anlegen darauf achten den "Spring initialzr" zu benutzen, dadurch wird die Auswahl von Dependencies sehr leicht. 
 Auch zum späteren Zeitpunkt kann man dann in der "pom.xml" auf "edit starters" klicken und darüber dann neue Spring-Dependencies hinzufügen.
+* In manchen Tutorials werden ".yml"-Konfigurationsdateien benutzt, das ist veraltet und jetzt wird dafür "application.properties"
+benutzt.
+* Bei Eureka gibt es einen Fehler, durch den der Client nicht gestartet werden kann. [Das ist der fix](https://stackoverflow.com/questions/77684538/how-to-solve-netflix-eureka-client-error-in-spring-boot-3-2-0-and-java-17)
