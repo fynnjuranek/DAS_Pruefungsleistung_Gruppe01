@@ -1,0 +1,14 @@
+de\leuphana\shop\structure\sales\ArticleComplaintRequest.class
+de\leuphana\shop\structure\sales\OrderPosition.class
+de\leuphana\shop\structure\billing\Invoice.class
+de\leuphana\shop\behaviour\Shop.class
+de\leuphana\shop\structure\article\BookCategory.class
+de\leuphana\shop\structure\sales\Catalog.class
+de\leuphana\shop\structure\article\Book.class
+de\leuphana\shop\structure\article\Article.class
+de\leuphana\shop\structure\billing\InvoicePosition.class
+de\leuphana\shop\structure\sales\Cart.class
+de\leuphana\shop\structure\article\CD.class
+de\leuphana\shop\structure\sales\CartItem.class
+de\leuphana\shop\structure\sales\Customer.class
+de\leuphana\shop\structure\sales\Order.class

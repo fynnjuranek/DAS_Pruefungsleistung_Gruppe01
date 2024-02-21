@@ -10,4 +10,9 @@ class TestApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    void canArticleBeAdded() {
+
+    }
+
 }
