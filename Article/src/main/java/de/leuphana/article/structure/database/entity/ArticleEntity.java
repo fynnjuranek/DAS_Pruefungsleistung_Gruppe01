@@ -1,14 +1,13 @@
 package de.leuphana.article.structure.database.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 
 @Entity
-public class ArticleEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class ArticleEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer articleId;
