@@ -13,6 +13,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$USER_HOME$/OneDrive/Desktop/ShopMaven/pom.xml" />
+        <option value="$PROJECT_DIR$/Test/pom.xml" />
       </set>
     </option>
   </component>
