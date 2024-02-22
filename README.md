@@ -57,4 +57,7 @@ benutzt.
 der neue Request verarbeitet.
   * [Das hat mir ein bisschen geholfen](https://medium.com/@vegabryam40/simplifying-microservice-communication-exploring-openfeign-and-its-integration-with-spring-f53939a2c861)
   * [Die erste hälfte von dem Video war auch sehr hilfreich](https://www.youtube.com/watch?v=3NcmlrumSOc)
-* 
+* Die Videoreihe ist, glaube ich, sehr hilfreich. Er benutzt zwar nicht genau die Technologien wie wir, erklärt aber auch ganz gut
+die Sachen, die unabhängig von der Technologie sind. [Video](https://www.youtube.com/watch?v=p485kUNpPvE&list=PLwvrYc43l1Mwqpf9i-1B1gXfMeHOm6DeY)
+* OpenFeign geht nicht ohne Eureka-Server / Eureka-Discovery-Service, weil Eureka einen Loadbalancer mit implementiert.
+Wenn man Eureka nicht benutzen würde, dann müsste man einen separaten LoadBalancer mit in das Projekt einbinden.
