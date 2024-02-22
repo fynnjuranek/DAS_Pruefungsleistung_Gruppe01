@@ -23,6 +23,7 @@ public class ShopApplication implements ApplicationRunner {
         SpringApplication.run(ShopApplication.class, args);
     }
 
+    // TODO: delete this
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Book book = new Book();

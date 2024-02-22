@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 // If scanBasePackages is not added, then the ArticleRestConnectorProvider won't be found!
 @SpringBootApplication(scanBasePackages = {"de.leuphana.connector", "de.leuphana.article"})
-// TODO: Need to add OpenFeign, EurekaDiscoveryService
+// TODO: Maybe need to add DiscoveryService
 public class ArticleApplication {
 
     public static void main(String[] args) {
