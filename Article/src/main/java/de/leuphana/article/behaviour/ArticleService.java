@@ -11,6 +11,9 @@ import de.leuphana.shop.structure.article.CD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+// @Service is used for components that hold business logic -> data manipulation...
+// https://stackoverflow.com/questions/58234187/what-is-the-use-of-service-layer-in-spring-boot-applications
+
 @Service
 public class ArticleService {
 
@@ -21,13 +24,23 @@ public class ArticleService {
     ArticleMapper articleMapper;
 
     public Article addArticleToDatabase(Article article) {
-        if (article instanceof Book) {
-            BookEntity bookEntity = articleMapper.mapToBookEntity((Book) article);
-            articleDatabase.save(bookEntity);
-        } else if (article instanceof CD) {
-            CdEntity cdEntity = articleMapper.mapToCdEntity((CD) article);
-            articleDatabase.save(cdEntity);
+        ArticleEntity foundArticleEntity = articleDatabase.findArticleEntityByName(article.getName());
+        if (foundArticleEntity != null) {
+            articleDatabase.deleteById(foundArticleEntity.getArticleId());
+            // TODO: Right now the articleId is adding up with every article (JPA-Generation), maybe add function to set the articleId after mapping (entity creation).
         }
+
+        ArticleEntity articleEntity = null;
+        if (article instanceof Book) {           // there would be information loss if no type-cast
+            articleEntity = articleMapper.mapToBookEntity((Book) article);
+        } else if (article instanceof CD) {
+            articleEntity = articleMapper.mapToCdEntity((CD) article);
+        }
+
+        if (articleEntity != null) {
+            articleDatabase.save(articleEntity);
+        }
+
         return article;
     }
 

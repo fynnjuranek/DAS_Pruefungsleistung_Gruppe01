@@ -61,3 +61,4 @@ der neue Request verarbeitet.
 die Sachen, die unabhängig von der Technologie sind. [Video](https://www.youtube.com/watch?v=p485kUNpPvE&list=PLwvrYc43l1Mwqpf9i-1B1gXfMeHOm6DeY)
 * OpenFeign geht nicht ohne Eureka-Server / Eureka-Discovery-Service, weil Eureka einen Loadbalancer mit implementiert.
 Wenn man Eureka nicht benutzen würde, dann müsste man einen separaten LoadBalancer mit in das Projekt einbinden.
+* Gute erklärung weshalb @Service (Service-Layer) benutzt werden sollte: https://stackoverflow.com/questions/58234187/what-is-the-use-of-service-layer-in-spring-boot-applications 

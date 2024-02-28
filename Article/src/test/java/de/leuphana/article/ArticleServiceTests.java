@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ArticleServiceTests {
 
-    // TODO: change Tests to ArticleService Tests!
     @Autowired
     ArticleMapper articleMapper;
 
