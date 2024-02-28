@@ -19,4 +19,7 @@ public class ShopService {
         return articleRestRequester.getArticleByName(name);
     }
 
+    public Article deleteArticleByName(String name) {
+        return articleRestRequester.deleteArticleByName(name);
+    }
 }

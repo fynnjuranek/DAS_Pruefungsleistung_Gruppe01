@@ -55,6 +55,10 @@ public class ArticleService {
         return article;
     }
 
-    // TODO: add more functionality
+    public Article deleteArticleByName(String name) {
+        ArticleEntity articleEntity = articleDatabase.findArticleEntityByName(name);
+        articleDatabase.deleteById(articleEntity.getArticleId());
+        return articleMapper.mapToArticle(articleEntity);
+    }
 
 }

@@ -21,4 +21,9 @@ public class ArticleRestConnectorProvider {
         return articleService.addArticleToDatabase(article);
     }
 
+    @RequestMapping("/deleteArticle/{name}")
+    public Article deleteArticleByName(@PathVariable("name") String name) {
+        return articleService.deleteArticleByName(name);
+    }
+
 }

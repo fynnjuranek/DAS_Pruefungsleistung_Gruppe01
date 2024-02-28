@@ -16,4 +16,7 @@ public interface ArticleRestConnectorRequester {
     @RequestMapping("/getArticle/{name}")
     Article getArticleByName(@PathVariable("name") String name);
 
+    @RequestMapping("/deleteArticle/{name}")
+    Article deleteArticleByName(@PathVariable("name") String name);
+
 }

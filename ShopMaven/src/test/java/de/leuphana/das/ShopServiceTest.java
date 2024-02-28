@@ -78,4 +78,12 @@ class ShopServiceTest {
         }
         Assertions.assertNotNull(foundCD);
     }
+
+    @Test
+    @Order(5)
+    void canArticleBeDeleted() {
+        Article article = shopService.deleteArticleByName(cd.getName());
+        System.out.println("Successfully deleted article: " + article.getName());
+        Assertions.assertNotNull(article);
+    }
 }

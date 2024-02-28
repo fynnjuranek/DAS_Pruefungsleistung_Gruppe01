@@ -93,4 +93,12 @@ class ArticleServiceTests {
         Assertions.assertNotNull(foundCD);
     }
 
+    @Test
+    @Order(7)
+    void canArticleBeDeleted() {
+        Article article = articleService.deleteArticleByName("Vampire Weekend");
+        System.out.println("Successfully deleted article: " + article.getName());
+        Assertions.assertNotNull(article);
+    }
+
 }
