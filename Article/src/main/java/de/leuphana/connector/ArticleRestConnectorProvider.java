@@ -11,7 +11,7 @@ public class ArticleRestConnectorProvider {
     @Autowired
     ArticleService articleService;
 
-    @RequestMapping("/getArticle{name}")
+    @RequestMapping("/getArticle/{name}")
     public Article findArticleByName(@PathVariable("name") String name) {
         return articleService.findArticleByName(name);
     }
@@ -20,6 +20,5 @@ public class ArticleRestConnectorProvider {
     public Article addArticleToDatabase(@RequestBody Article article) {
         return articleService.addArticleToDatabase(article);
     }
-
 
 }

@@ -2,6 +2,18 @@ package de.leuphana.shop.structure.article;
 
 // Java Bean
 // POJO (Plain Old Java Object)
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+// otherwise Json can't serialize inheritance and won't be able to resolve cd.getArtist()...
+@JsonTypeInfo(
+		use = JsonTypeInfo.Id.NAME,
+		property = "type")
+@JsonSubTypes({
+		@JsonSubTypes.Type(value = Book.class, name = "book"),
+		@JsonSubTypes.Type(value = CD.class, name = "cd")
+})
 public class Article {
 	// ehemals attribute
 	// bei Java Bean ist dies ein property

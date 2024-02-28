@@ -12,9 +12,9 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ArticleApplicationTests {
+class ArticleServiceTests {
 
     // TODO: change Tests to ArticleService Tests!
     @Autowired
@@ -26,8 +26,7 @@ class ArticleApplicationTests {
     @Autowired
     ArticleService articleService;
 
-    static CdEntity cdEntity;
-    static BookEntity bookEntity;
+
     static CD cd;
     static Book book;
 
@@ -36,35 +35,39 @@ class ArticleApplicationTests {
     @Test
     @Order(1)
     void canBookEntityBeMapped() {
-        bookEntity = new BookEntity(
+        BookEntity bookEntity = new BookEntity(
                 "Addison-Wesley", "The C++ Programming Language", 64.99f, "Bjarne Stroustrup"
         );
         book = articleMapper.mapToBook(bookEntity);
-        System.out.println(book.getAuthor());
+        System.out.println("Mapped bookEntity to book: " + book.getAuthor());
         Assertions.assertEquals("Bjarne Stroustrup", book.getAuthor());
     }
 
     @Test
     @Order(2)
     void canCdEntityBeMapped() {
-        cdEntity = new CdEntity(
+        CdEntity cdEntity = new CdEntity(
                 "XL Recordings Ltd", "Vampire Weekend", 8.49f, "Vampire Weekend"
         );
         cd = articleMapper.mapToCd(cdEntity);
-        System.out.println(cd.getArtist());
+        System.out.println("Mapped cdEntity to cd with: " + cd.getArtist());
         Assertions.assertEquals("Vampire Weekend", cd.getArtist());
     }
 
     @Test
     @Order(3)
     void canBookEntityBeAdded() {
-        Assertions.assertNotNull(articleService.addArticleToDatabase(book));
+        Article addedArticle = articleService.addArticleToDatabase(book);
+        System.out.println("Successfully added: " + addedArticle.getName());
+        Assertions.assertNotNull(addedArticle);
     }
 
     @Test
     @Order(4)
     void canCdEntityBeAdded() {
-        Assertions.assertNotNull(articleService.addArticleToDatabase(cd));
+        Article addedArticle = articleService.addArticleToDatabase(cd);
+        System.out.println("Successfully added: " + addedArticle.getName());
+        Assertions.assertNotNull(addedArticle);
     }
 
     @Test
@@ -74,7 +77,7 @@ class ArticleApplicationTests {
         Book foundBook = null;
         if (article instanceof Book) {
             foundBook = (Book) article;
-            System.out.println(foundBook.getAuthor());
+            System.out.println("Successfully found book: " + foundBook.getAuthor());
         }
         Assertions.assertNotNull(foundBook);
     }
@@ -86,7 +89,7 @@ class ArticleApplicationTests {
         CD foundCD = null;
         if (article instanceof CD) {
             foundCD = (CD) article;
-            System.out.println(foundCD.getArtist());
+            System.out.println("Successfully found cd: " + foundCD.getArtist());
         }
         Assertions.assertNotNull(foundCD);
     }
