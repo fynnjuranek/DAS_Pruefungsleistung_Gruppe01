@@ -1,10 +1,11 @@
 package de.leuphana.article;
 
+import de.leuphana.article.behaviour.ArticleService;
 import de.leuphana.article.structure.database.ArticleDatabase;
-import de.leuphana.article.structure.database.entity.ArticleEntity;
 import de.leuphana.article.structure.database.entity.BookEntity;
 import de.leuphana.article.structure.database.entity.CdEntity;
 import de.leuphana.article.structure.database.mapper.ArticleMapper;
+import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.CD;
 import org.junit.jupiter.api.*;
@@ -22,8 +23,13 @@ class ArticleApplicationTests {
     @Autowired
     ArticleDatabase articleDatabase;
 
+    @Autowired
+    ArticleService articleService;
+
     static CdEntity cdEntity;
     static BookEntity bookEntity;
+    static CD cd;
+    static Book book;
 
     // TODO: Put mapping tests in separate test-class
     // TODO: Change name of test
@@ -33,7 +39,7 @@ class ArticleApplicationTests {
         bookEntity = new BookEntity(
                 "Addison-Wesley", "The C++ Programming Language", 64.99f, "Bjarne Stroustrup"
         );
-        Book book = articleMapper.mapToBook(bookEntity);
+        book = articleMapper.mapToBook(bookEntity);
         System.out.println(book.getAuthor());
         Assertions.assertEquals("Bjarne Stroustrup", book.getAuthor());
     }
@@ -44,7 +50,7 @@ class ArticleApplicationTests {
         cdEntity = new CdEntity(
                 "XL Recordings Ltd", "Vampire Weekend", 8.49f, "Vampire Weekend"
         );
-        CD cd = articleMapper.mapToCd(cdEntity);
+        cd = articleMapper.mapToCd(cdEntity);
         System.out.println(cd.getArtist());
         Assertions.assertEquals("Vampire Weekend", cd.getArtist());
     }
@@ -52,37 +58,37 @@ class ArticleApplicationTests {
     @Test
     @Order(3)
     void canBookEntityBeAdded() {
-        Assertions.assertNotNull(articleDatabase.save(bookEntity));
+        Assertions.assertNotNull(articleService.addArticleToDatabase(book));
     }
 
     @Test
     @Order(4)
     void canCdEntityBeAdded() {
-        Assertions.assertNotNull(articleDatabase.save(cdEntity));
+        Assertions.assertNotNull(articleService.addArticleToDatabase(cd));
     }
 
     @Test
     @Order(5)
-    void canBookEntityBeFound() {
-        BookEntity bookEntity = null;
-        ArticleEntity articleEntity = articleDatabase.findArticleEntityByName("The C++ Programming Language");
-        if (articleEntity instanceof BookEntity) {
-            bookEntity = (BookEntity) articleEntity;
-            System.out.println(bookEntity.getAuthor());
+    void canBookBeFound() {
+        Article article = articleService.findArticleByName("The C++ Programming Language");
+        Book foundBook = null;
+        if (article instanceof Book) {
+            foundBook = (Book) article;
+            System.out.println(foundBook.getAuthor());
         }
-        Assertions.assertNotNull(bookEntity);
+        Assertions.assertNotNull(foundBook);
     }
 
     @Test
     @Order(6)
-    void canCdEntityBeFound() {
-        CdEntity cdEntity = null;
-        ArticleEntity articleEntity = articleDatabase.findArticleEntityByName("Vampire Weekend");
-        if (articleEntity instanceof CdEntity) {
-            cdEntity = (CdEntity) articleEntity;
-            System.out.println(cdEntity);
+    void canCdBeFound() {
+        Article article = articleService.findArticleByName("Vampire Weekend");
+        CD foundCD = null;
+        if (article instanceof CD) {
+            foundCD = (CD) article;
+            System.out.println(foundCD.getArtist());
         }
-        Assertions.assertNotNull(cdEntity);
+        Assertions.assertNotNull(foundCD);
     }
 
 }

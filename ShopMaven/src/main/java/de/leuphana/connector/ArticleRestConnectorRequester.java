@@ -1,6 +1,7 @@
 package de.leuphana.connector;
 
 import de.leuphana.shop.structure.article.Book;
+import de.leuphana.shop.structure.article.CD;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,9 @@ public interface ArticleRestConnectorRequester {
 
     @RequestMapping("/getBook{name}")
     Book getBook(@PathVariable String name);
+
+    @PostMapping("/addCD")
+    CD addCD(@RequestBody CD cd);
 
 
 

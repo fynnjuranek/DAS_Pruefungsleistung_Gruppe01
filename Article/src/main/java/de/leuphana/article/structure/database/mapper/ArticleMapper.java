@@ -1,7 +1,9 @@
 package de.leuphana.article.structure.database.mapper;
 
+import de.leuphana.article.structure.database.entity.ArticleEntity;
 import de.leuphana.article.structure.database.entity.BookEntity;
 import de.leuphana.article.structure.database.entity.CdEntity;
+import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.CD;
 import org.mapstruct.Mapper;
@@ -17,4 +19,6 @@ public interface ArticleMapper {
     List<BookEntity> mapToBookEntities(List<Book> books);
     Book mapToBook(BookEntity bookEntity);
     CD mapToCd(CdEntity cdEntity);
+
+    Article mapToArticle(ArticleEntity articleEntity);
 }
