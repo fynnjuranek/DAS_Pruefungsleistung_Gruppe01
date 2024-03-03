@@ -8,6 +8,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ShopServiceTest {
@@ -25,7 +27,7 @@ class ShopServiceTest {
         book.setManufacturer("d.punkt.verlag");
         book.setAuthor("Hanspeter Mössenböck");
         book.setPrice(29.90f);
-        // TODO: add bookcategory
+        // TODO: add book category
 
         cd = new CD();
         cd.setName("Vampire Weekend");
@@ -81,6 +83,18 @@ class ShopServiceTest {
 
     @Test
     @Order(5)
+    void canArticlesBeFound() {
+        List<Article> articles = shopService.getArticles();
+        System.out.println("Found articles with names: ");
+        for (Article article : articles) {
+            System.out.println(article.getName());
+        }
+        // assert articles == not empty
+        Assertions.assertFalse(articles.isEmpty());
+    }
+
+    @Test
+    @Order(6)
     void canArticleBeDeleted() {
         Article article = shopService.deleteArticleByName(cd.getName());
         System.out.println("Successfully deleted article: " + article.getName());

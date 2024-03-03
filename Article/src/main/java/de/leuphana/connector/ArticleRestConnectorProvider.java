@@ -5,6 +5,8 @@ import de.leuphana.shop.structure.article.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ArticleRestConnectorProvider {
 
@@ -14,6 +16,11 @@ public class ArticleRestConnectorProvider {
     @RequestMapping("/getArticle/{name}")
     public Article findArticleByName(@PathVariable("name") String name) {
         return articleService.findArticleByName(name);
+    }
+
+    @RequestMapping("/getArticles")
+    public List<Article> findAllArticles() {
+        return articleService.findAllArticles();
     }
 
     @PostMapping("/addArticle")

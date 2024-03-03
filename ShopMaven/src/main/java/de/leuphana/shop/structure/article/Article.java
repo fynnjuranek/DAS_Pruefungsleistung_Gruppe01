@@ -6,7 +6,7 @@ package de.leuphana.shop.structure.article;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-// otherwise Json can't serialize inheritance and won't be able to resolve cd.getArtist()...
+// otherwise Json can't serialize inheritance and won't be able to resolve for example cd.getArtist()...
 @JsonTypeInfo(
 		use = JsonTypeInfo.Id.NAME,
 		property = "type")

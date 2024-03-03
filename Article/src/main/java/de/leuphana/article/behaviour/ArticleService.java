@@ -11,6 +11,9 @@ import de.leuphana.shop.structure.article.CD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // @Service is used for components that hold business logic -> data manipulation...
 // https://stackoverflow.com/questions/58234187/what-is-the-use-of-service-layer-in-spring-boot-applications
 
@@ -53,6 +56,19 @@ public class ArticleService {
             article = articleMapper.mapToCd((CdEntity) articleEntity);
         }
         return article;
+    }
+
+    public List<Article> findAllArticles() {
+        List<ArticleEntity> articleEntities = articleDatabase.findAll();
+        List<Article> articles = new ArrayList<>();
+        for (ArticleEntity articleEntity : articleEntities) {
+            if (articleEntity instanceof BookEntity) {
+                articles.add(articleMapper.mapToBook((BookEntity) articleEntity));
+            } else if (articleEntity instanceof CdEntity) {
+                articles.add(articleMapper.mapToCd((CdEntity) articleEntity));
+            }
+        }
+        return articles;
     }
 
     public Article deleteArticleByName(String name) {
