@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Order" />
         <module name="ShopMaven" />
         <module name="Gateway" />
       </profile>
@@ -29,6 +30,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Article" options="-parameters" />
       <module name="Gateway" options="-parameters" />
+      <module name="Order" options="-parameters" />
       <module name="ShopMaven" options="-parameters" />
       <module name="Test" options="-parameters" />
     </option>
