@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Order" />
         <module name="ShopMaven" />
+        <module name="Customer" />
         <module name="Gateway" />
       </profile>
       <profile name="Annotation profile for Article" enabled="true">
@@ -29,6 +30,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Article" options="-parameters" />
+      <module name="Customer" options="-parameters" />
       <module name="Gateway" options="-parameters" />
       <module name="Order" options="-parameters" />
       <module name="ShopMaven" options="-parameters" />

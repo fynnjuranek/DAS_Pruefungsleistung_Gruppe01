@@ -30,4 +30,7 @@ public class Customer {
 		orders.put(order.getOrderId(), order);
 	}
 
+	public String getName() {
+		return name;
+	}
 }
