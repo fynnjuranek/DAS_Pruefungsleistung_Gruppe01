@@ -11,12 +11,13 @@
         <option value="$PROJECT_DIR$/Gateway/pom.xml" />
         <option value="$PROJECT_DIR$/Order/pom.xml" />
         <option value="$PROJECT_DIR$/Customer/pom.xml" />
+        <option value="$PROJECT_DIR$/OrderTest/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/Test/pom.xml" />
         <option value="$USER_HOME$/OneDrive/Desktop/ShopMaven/pom.xml" />
+        <option value="$PROJECT_DIR$/Test/pom.xml" />
       </set>
     </option>
   </component>

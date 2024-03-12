@@ -1,31 +1,50 @@
 package de.leuphana.order.structure.database.entity;
-import jakarta.persistence.*;
+
+import de.leuphana.shop.structure.sales.OrderPosition;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.annotation.processing.Generated;
 import java.util.ArrayList;
 import java.util.List;
-@Entity
+
+@Document
 public class OrderEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer orderId;
-    private List<OrderPositionEntity> orderPositions;
+    private String orderId;
+    private Integer customerId;
+    private List<OrderPosition> orderPositions;
+
     public OrderEntity() {
-        orderPositions = new ArrayList<OrderPositionEntity>();
+        orderPositions = new ArrayList<OrderPosition>();
     }
-    public Integer getOrderId() {
-        return orderId;
+
+    public int getCustomerId() {
+        return customerId;
     }
-    public void setOrderId(Integer orderId) {
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
-    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name = "fk_orderId", referencedColumnName = "orderId")
-    public List<OrderPositionEntity> getOrderPositions() {
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public List<OrderPosition> getOrderPositions() {
         return orderPositions;
     }
 
-    public void setOrderPositions(List<OrderPositionEntity> orderPositions) {
+    public void setOrderPositions(List<OrderPosition> orderPositions) {
         this.orderPositions = orderPositions;
+    }
+
+    public void addOrderPosition(OrderPosition orderPosition) {
+        this.orderPositions.add(orderPosition);
     }
 }

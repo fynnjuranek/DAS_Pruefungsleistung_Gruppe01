@@ -7,23 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Order" />
         <module name="ShopMaven" />
-        <module name="Customer" />
         <module name="Gateway" />
       </profile>
-      <profile name="Annotation profile for Article" enabled="true">
+      <profile name="Annotation profile for Order" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$PROJECT_DIR$/../../../Maven/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$PROJECT_DIR$/../../../Maven/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
+        <module name="Order" />
+        <module name="Customer" />
         <module name="Article" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="OrderTest" target="17" />
       <module name="Test" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -33,6 +34,7 @@
       <module name="Customer" options="-parameters" />
       <module name="Gateway" options="-parameters" />
       <module name="Order" options="-parameters" />
+      <module name="OrderTest" options="-parameters" />
       <module name="ShopMaven" options="-parameters" />
       <module name="Test" options="-parameters" />
     </option>

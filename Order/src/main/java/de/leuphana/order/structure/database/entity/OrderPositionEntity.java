@@ -1,23 +1,23 @@
 package de.leuphana.order.structure.database.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class OrderPositionEntity {
 
     @Id
-    @GeneratedValue
     private Integer positionId;
     private Integer articleId;
     private Float articlePrice;
     private int articleQuantity;
 
-    public Integer getPositionId() {
-        return positionId;
-    }
     public void setPositionId(Integer positionId) {
         this.positionId = positionId;
+    }
+
+    public Integer getPositionId() {
+        return positionId;
     }
 
     public Integer getArticleId() {
@@ -43,5 +43,4 @@ public class OrderPositionEntity {
     public void setArticleQuantity(int articleQuantity) {
         this.articleQuantity = articleQuantity;
     }
-
 }

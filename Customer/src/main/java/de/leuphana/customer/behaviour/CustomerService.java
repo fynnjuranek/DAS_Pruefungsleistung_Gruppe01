@@ -36,10 +36,9 @@ public class CustomerService {
         CustomerEntity customerEntity = customerMapper.mapToCustomerEntity(customer);
         customerEntity.setCartEntity(cartEntity);
 
-        customerDatabase.save(customerEntity);
-
-
-        return customer;
+        // To be 100% sure that the customer got properly saved!
+        CustomerEntity savedCustomer = customerDatabase.save(customerEntity);
+        return customerMapper.mapToCustomer(savedCustomer);
     }
 
 

@@ -15,7 +15,12 @@ public interface CustomerMapper {
     Customer mapToCustomer(CustomerEntity customerEntity);
 
     CartEntity mapToCartEntity(Cart cart);
+    Cart mapToCart(CartEntity cartEntity);
 
     CartItemEntity mapToCartItemEntity(CartItem cartItem);
+    CartItem mapToCartItem(CartItemEntity cartItemEntity);
+
+
+
 
 }

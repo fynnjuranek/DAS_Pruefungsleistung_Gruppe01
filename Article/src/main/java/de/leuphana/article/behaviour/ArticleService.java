@@ -8,6 +8,7 @@ import de.leuphana.article.structure.database.mapper.ArticleMapper;
 import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.CD;
+import org.hibernate.dialect.function.array.JsonArrayViaElementArgumentReturnTypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +41,13 @@ public class ArticleService {
             articleEntity = articleMapper.mapToCdEntity((CD) article);
         }
 
+        // To be 100% sure that the entity got properly saved!
+        ArticleEntity savedArticleEntity = null;
         if (articleEntity != null) {
-            articleDatabase.save(articleEntity);
+            savedArticleEntity = articleDatabase.save(articleEntity);
         }
 
-        return article;
+        return articleMapper.mapToArticle(savedArticleEntity);
     }
 
     public Article findArticleByName(String name) {
