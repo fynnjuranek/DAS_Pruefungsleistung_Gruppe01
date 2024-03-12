@@ -1,10 +1,10 @@
 package de.leuphana.shop.structure.sales;
 
+import de.leuphana.shop.structure.article.Article;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import de.leuphana.shop.structure.article.Article;
 
 public class Cart {
 
@@ -24,6 +24,8 @@ public class Cart {
 			cartItem.incrementQuantity();
 		} else {
 			cartItem = new CartItem();
+			cartItem.setArticleId(articleId);
+			cartItem.setPrice(article.getPrice());
 			cartItems.put(articleId, cartItem);
 		}
 		numberOfArticles++;

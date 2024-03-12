@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class BookEntity extends ArticleEntity {
     private String author;
+    private String bookCategory;
 
     public BookEntity() {
     }
@@ -19,5 +20,13 @@ public class BookEntity extends ArticleEntity {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getBookCategory() {
+        return bookCategory;
+    }
+
+    public void setBookCategory(String bookCategory) {
+        this.bookCategory = bookCategory;
     }
 }

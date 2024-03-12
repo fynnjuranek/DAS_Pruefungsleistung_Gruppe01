@@ -33,4 +33,28 @@ public class Customer {
 	public String getName() {
 		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+
+	public Map<Integer, Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Map<Integer, Order> orders) {
+		this.orders = orders;
+	}
 }

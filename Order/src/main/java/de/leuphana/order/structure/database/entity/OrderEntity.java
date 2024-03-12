@@ -6,8 +6,7 @@ import java.util.List;
 public class OrderEntity {
 
     @Id
-    @GeneratedValue
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer orderId;
     private List<OrderPositionEntity> orderPositions;
     public OrderEntity() {

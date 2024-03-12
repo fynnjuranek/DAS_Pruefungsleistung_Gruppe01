@@ -35,7 +35,7 @@ These additional references should also help you:
 * [Declarative REST calls with Spring Cloud OpenFeign sample](https://github.com/spring-cloud-samples/feign-eureka)
 
 ### Tipps
-* Die Datenbank mit MariaDB muss seperat über den phpmyadmin angelegt werden. Die Daten/Tabellen werden dann automatisch 
+* Die Datenbank mit MariaDB muss separate über den phpmyadmin angelegt werden. Die Daten/Tabellen werden dann automatisch 
   über JPA angelegt.
 * Bei MariaDB darf man dann nicht vergessen die jeweiligen Server über "xampp" zu starten!
 * Möglicherweise müssen Benutzername und Passwort angegeben werden. Dann kann man einfach für beide Sachen "root" benutzen

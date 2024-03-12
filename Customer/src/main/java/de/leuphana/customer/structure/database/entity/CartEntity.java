@@ -1,43 +1,60 @@
-package de.leuphana.customer.entity;
+package de.leuphana.customer.structure.database.entity;
 
-import de.leuphana.shop.structure.article.Article;
-import de.leuphana.shop.structure.sales.CartItem;
 import jakarta.persistence.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "cart")
 public class CartEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany
-    private Map<Integer, CartItemEntity> cartItems;
+    @OneToMany(mappedBy = "cartEntity", cascade = CascadeType.ALL)
+    private List<CartItemEntity> cartItems;
     private int numberOfArticles;
 
     public CartEntity() {
-        cartItems = new HashMap<Integer, CartItemEntity>();
+        cartItems = new ArrayList<>();
         numberOfArticles = 0;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCartItems(List<CartItemEntity> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public void setNumberOfArticles(int numberOfArticles) {
+        this.numberOfArticles = numberOfArticles;
     }
 
     public void addCartItem(int articleId) {
         CartItemEntity cartItem;
-        if (cartItems.containsKey(articleId)) {
-            cartItem = cartItems.get(articleId);
-            cartItem.incrementQuantity();
-        } else {
-            cartItem = new CartItemEntity();
-            cartItems.put(articleId, cartItem);
+
+        for (CartItemEntity cartItemEntity : cartItems) {
+            if (cartItemEntity.getArticleId() == articleId) {
+                cartItem = cartItems.get(cartItems.indexOf(cartItemEntity));
+                cartItem.incrementQuantity();
+            } else {
+                cartItem = new CartItemEntity();
+                cartItems.add(cartItem);
+            }
         }
         numberOfArticles++;
     }
 
     public void deleteCartItem(int articleId) {
-        for (CartItemEntity cartItem : cartItems.values()) {
+        for (CartItemEntity cartItem : cartItems) {
             if (cartItem.getArticleId() == (articleId)) {
                 cartItems.remove(cartItem.getCartItemId());
                 break;
@@ -46,7 +63,7 @@ public class CartEntity {
     }
 
     public void decrementArticleQuantity(int articleId) {
-        if (cartItems.containsKey(articleId)) {
+        if (cartItems.get(articleId) != null) {
             CartItemEntity cartItem = (CartItemEntity) cartItems.get(articleId);
             cartItem.decrementQuantity();
 
@@ -57,8 +74,8 @@ public class CartEntity {
         }
     }
 
-    public Collection<CartItemEntity> getCartItems() {
-        return cartItems.values();
+    public List<CartItemEntity> getCartItems() {
+        return cartItems;
     }
 
     public int getNumberOfArticles() {

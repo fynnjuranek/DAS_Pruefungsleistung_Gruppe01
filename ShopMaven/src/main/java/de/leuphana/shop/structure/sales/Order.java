@@ -1,5 +1,7 @@
 package de.leuphana.shop.structure.sales;
 
+import de.leuphana.shop.structure.article.Article;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,10 @@ public class Order {
 
 	public void setOrderPositions(List<OrderPosition> orderPositions) {
 		this.orderPositions = orderPositions;
+	}
+
+	public void addOrderPosition(OrderPosition orderPosition) {
+		this.orderPositions.add(orderPosition);
 	}
 
 	public int getNumberOfArticles() {

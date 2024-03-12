@@ -1,8 +1,5 @@
-package de.leuphana.customer.entity;
-import de.leuphana.shop.structure.sales.Cart;
+package de.leuphana.customer.structure.database.entity;
 import jakarta.persistence.*;
-import java.util.HashMap;
-import java.util.Map;
 
 import java.util.List;
 
@@ -17,6 +14,7 @@ public class CustomerEntity {
     private String address;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
     private CartEntity cartEntity;
 
     // TODO: change Orders to orderID (only reference)
