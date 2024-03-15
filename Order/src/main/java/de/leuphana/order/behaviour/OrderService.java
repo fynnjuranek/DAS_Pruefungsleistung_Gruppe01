@@ -1,6 +1,7 @@
 package de.leuphana.order.behaviour;
 
 import de.leuphana.order.structure.database.OrderDatabase;
+import de.leuphana.order.structure.database.entity.OrderEntity;
 import de.leuphana.order.structure.database.mapper.OrderMapper;
 import de.leuphana.shop.structure.sales.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ public class OrderService {
 
     // TODO: implement OrderService
     public Order addOrderToDatabase(Order order) {
-        return null;
+        OrderEntity orderEntity = orderMapper.mapToOrderEntity(order);
+        OrderEntity savedOrderEntity = orderDatabase.save(orderEntity);
+        return orderMapper.mapToOrder(savedOrderEntity);
     }
 
     public Order findOrderById(Integer orderID) {
