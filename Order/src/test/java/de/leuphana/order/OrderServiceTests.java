@@ -32,11 +32,11 @@ class OrderServiceTests {
         OrderEntity orderEntity = new OrderEntity();
         OrderPositionEntity orderPositionEntity = new OrderPositionEntity();
         orderPositionEntity.setArticleId(1);
-        orderPositionEntity.setArticlePrice(16.0f);
+//        orderPositionEntity.setArticlePrice(16.0f);
         orderPositionEntity.setArticleQuantity(2);
-        OrderPosition orderPosition = orderMapper.mapToOrderPosition(orderPositionEntity);
-        orderEntity.addOrderPosition(orderPosition);
-        orderEntity.setCustomerId(1);
+//        OrderPosition orderPosition = orderMapper.mapToOrderPosition(orderPositionEntity);
+        orderEntity.addOrderPosition(orderPositionEntity);
+//        orderEntity.setCustomerId(1);
         order = orderMapper.mapToOrder(orderEntity);
         Assertions.assertEquals(orderEntity.getOrderPositions(), order.getOrderPositions());
     }
@@ -51,7 +51,7 @@ class OrderServiceTests {
     @Order(3)
     void canOrderBeAdded() {
         de.leuphana.shop.structure.sales.Order savedOrder = orderService.addOrderToDatabase(order);
-        System.out.println("Added order: " + savedOrder.getOrderId() + " " + savedOrder.getCustomerId() + " to database");
+//        System.out.println("Added order: " + savedOrder.getOrderId() + " " + savedOrder.getCustomerId() + " to database");
         Assertions.assertNotNull(savedOrder);
     }
 

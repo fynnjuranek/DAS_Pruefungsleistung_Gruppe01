@@ -4,7 +4,7 @@ public class OrderPosition {
 
 	private Integer positionId;
 	private Integer articleId;
-	private Float articlePrice;
+//	private Float articlePrice;
 	private int articleQuantity;
 
 	public void setPositionId(Integer positionId) {
@@ -23,13 +23,13 @@ public class OrderPosition {
 		this.articleId = articleId;
 	}
 
-	public Float getArticlePrice() {
-		return articlePrice;
-	}
-
-	public void setArticlePrice(Float articlePrice) {
-		this.articlePrice = articlePrice;
-	}
+//	public Float getArticlePrice() {
+//		return articlePrice;
+//	}
+//
+//	public void setArticlePrice(Float articlePrice) {
+//		this.articlePrice = articlePrice;
+//	}
 
 	public int getArticleQuantity() {
 		return articleQuantity;

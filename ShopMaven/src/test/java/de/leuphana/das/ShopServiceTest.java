@@ -100,4 +100,5 @@ class ShopServiceTest {
         System.out.println("Successfully deleted article: " + article.getName());
         Assertions.assertNotNull(article);
     }
+
 }

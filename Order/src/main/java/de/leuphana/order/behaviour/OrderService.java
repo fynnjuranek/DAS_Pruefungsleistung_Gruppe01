@@ -2,8 +2,10 @@ package de.leuphana.order.behaviour;
 
 import de.leuphana.order.structure.database.OrderDatabase;
 import de.leuphana.order.structure.database.entity.OrderEntity;
+import de.leuphana.order.structure.database.entity.OrderPositionEntity;
 import de.leuphana.order.structure.database.mapper.OrderMapper;
 import de.leuphana.shop.structure.sales.Order;
+import de.leuphana.shop.structure.sales.OrderPosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,26 @@ public class OrderService {
         OrderEntity orderEntity = orderMapper.mapToOrderEntity(order);
         OrderEntity savedOrderEntity = orderDatabase.save(orderEntity);
         return orderMapper.mapToOrder(savedOrderEntity);
+    }
+
+    // TODO: I think there needs to be an implementation for List<OrderEntity> with all Orders for a customer
+
+    public Order addNewOrderToDatabase(Integer articleId, int articleQuantity) {
+        OrderEntity orderEntity = null;//orderDatabase.findOrderEntityByCustomerId(customerId);
+        // TODO: change this
+        // create new order if it doesn't already exist
+        if (orderEntity == null) {
+            orderEntity = new OrderEntity();
+            // TODO: delete customerID
+//            orderEntity.setCustomerId(customerId);
+        }
+        OrderPositionEntity orderPosition = new OrderPositionEntity();
+        orderPosition.setArticleId(articleId);
+//        orderPosition.setArticlePrice(articlePrice);
+        orderPosition.setArticleQuantity(articleQuantity);
+        orderEntity.addOrderPosition(orderPosition);
+
+        return orderMapper.mapToOrder(orderDatabase.save(orderEntity));
     }
 
     public Order findOrderById(Integer orderID) {

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DAS_Prüfungsleistung_Gruppe01.iml" filepath="$PROJECT_DIR$/.idea/DAS_Prüfungsleistung_Gruppe01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Order/Order.iml" filepath="$PROJECT_DIR$/Order/Order.iml" />
     </modules>
   </component>
 </project>

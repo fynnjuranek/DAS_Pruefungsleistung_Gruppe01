@@ -13,20 +13,21 @@ public class OrderEntity {
 
     @Id
     private String orderId;
-    private Integer customerId;
-    private List<OrderPosition> orderPositions;
+    // TODO: CustomerID needs to be deleted i think. The connection should be in customer with "orderID"
+//    private Integer customerId;
+    private List<OrderPositionEntity> orderPositions;
 
     public OrderEntity() {
-        orderPositions = new ArrayList<OrderPosition>();
+        orderPositions = new ArrayList<OrderPositionEntity>();
     }
 
-    public int getCustomerId() {
-        return customerId;
-    }
+//    public int getCustomerId() {
+//        return customerId;
+//    }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+//    public void setCustomerId(Integer customerId) {
+//        this.customerId = customerId;
+//    }
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
@@ -36,15 +37,15 @@ public class OrderEntity {
         return orderId;
     }
 
-    public List<OrderPosition> getOrderPositions() {
+    public List<OrderPositionEntity> getOrderPositions() {
         return orderPositions;
     }
 
-    public void setOrderPositions(List<OrderPosition> orderPositions) {
+    public void setOrderPositions(List<OrderPositionEntity> orderPositions) {
         this.orderPositions = orderPositions;
     }
 
-    public void addOrderPosition(OrderPosition orderPosition) {
+    public void addOrderPosition(OrderPositionEntity orderPosition) {
         this.orderPositions.add(orderPosition);
     }
 }

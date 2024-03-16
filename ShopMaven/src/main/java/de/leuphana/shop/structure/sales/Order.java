@@ -1,27 +1,26 @@
 package de.leuphana.shop.structure.sales;
 
-import de.leuphana.shop.structure.article.Article;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable {
 
 	private Integer orderId;
-	private Integer customerId;
+//	private Integer customerId;
 	private List<OrderPosition> orderPositions;
 
 	public Order() {
 		orderPositions = new ArrayList<OrderPosition>();
 	}
 
-	public int getCustomerId() {
-		return customerId;
-	}
+//	public int getCustomerId() {
+//		return customerId;
+//	}
 
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
-	}
+//	public void setCustomerId(Integer customerId) {
+//		this.customerId = customerId;
+//	}
 
 	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
@@ -48,14 +47,14 @@ public class Order {
 		return 0;
 	}
 
-	public double getTotalPrice() {
-		double totalPrice = 0.0;
-
-		for (OrderPosition orderPosition : orderPositions) {
-			totalPrice += orderPosition.getArticleQuantity() * orderPosition.getArticlePrice();
-		}
-
-		return totalPrice;
-	}
+//	public double getTotalPrice() {
+//		double totalPrice = 0.0;
+//
+//		for (OrderPosition orderPosition : orderPositions) {
+//			totalPrice += orderPosition.getArticleQuantity() * orderPosition.getArticlePrice();
+//		}
+//
+//		return totalPrice;
+//	}
 
 }

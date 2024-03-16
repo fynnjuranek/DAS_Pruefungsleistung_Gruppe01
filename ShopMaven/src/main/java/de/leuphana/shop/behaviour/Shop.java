@@ -111,7 +111,7 @@ public class Shop {
 			
 			InvoicePosition invoicePosition = new InvoicePosition();
 			invoicePosition.setArticleId(orderPosition.getArticleId());
-			invoicePosition.setArticlePrice(orderPosition.getArticlePrice());
+//			invoicePosition.setArticlePrice(orderPosition.getArticlePrice());
 			invoicePosition.setArticleQuantity(orderPosition.getArticleQuantity());
 			
 			invoice.addInvoicePosition(invoicePosition);
