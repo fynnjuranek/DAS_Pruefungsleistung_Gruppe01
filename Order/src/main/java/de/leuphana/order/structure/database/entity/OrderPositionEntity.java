@@ -7,16 +7,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class OrderPositionEntity {
 
     @Id
-    private Integer positionId;
+    private String positionId;
     private Integer articleId;
 //    private Float articlePrice;
     private int articleQuantity;
 
-    public void setPositionId(Integer positionId) {
+    public void setPositionId(String positionId) {
         this.positionId = positionId;
     }
 
-    public Integer getPositionId() {
+    public String getPositionId() {
         return positionId;
     }
 

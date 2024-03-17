@@ -1,6 +1,8 @@
 package de.leuphana.shop.structure.sales;
 
-public class OrderPosition {
+import java.io.Serializable;
+
+public class OrderPosition implements Serializable {
 
 	private Integer positionId;
 	private Integer articleId;

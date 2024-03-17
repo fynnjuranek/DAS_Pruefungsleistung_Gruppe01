@@ -2,7 +2,6 @@ package de.leuphana.order;
 
 import de.leuphana.order.behaviour.OrderService;
 import de.leuphana.order.structure.database.entity.OrderEntity;
-import de.leuphana.order.structure.database.entity.OrderPositionEntity;
 import de.leuphana.order.structure.database.mapper.OrderMapper;
 import de.leuphana.shop.structure.sales.OrderPosition;
 import org.junit.jupiter.api.*;
@@ -30,12 +29,12 @@ class OrderServiceTests {
     @Order(1)
     void canOrderBeMapped() {
         OrderEntity orderEntity = new OrderEntity();
-        OrderPositionEntity orderPositionEntity = new OrderPositionEntity();
-        orderPositionEntity.setArticleId(1);
+        OrderPosition orderPosition = new OrderPosition();
+        orderPosition.setArticleId(1);
 //        orderPositionEntity.setArticlePrice(16.0f);
-        orderPositionEntity.setArticleQuantity(2);
+        orderPosition.setArticleQuantity(2);
 //        OrderPosition orderPosition = orderMapper.mapToOrderPosition(orderPositionEntity);
-        orderEntity.addOrderPosition(orderPositionEntity);
+        orderEntity.addOrderPosition(orderPosition);
 //        orderEntity.setCustomerId(1);
         order = orderMapper.mapToOrder(orderEntity);
         Assertions.assertEquals(orderEntity.getOrderPositions(), order.getOrderPositions());
@@ -50,7 +49,9 @@ class OrderServiceTests {
     @Test
     @Order(3)
     void canOrderBeAdded() {
-        de.leuphana.shop.structure.sales.Order savedOrder = orderService.addOrderToDatabase(order);
+        int articleId = 1;
+        int articleQuantity = 2;
+        de.leuphana.shop.structure.sales.Order savedOrder = orderService.addNewOrderToDatabase(articleId, articleQuantity);
 //        System.out.println("Added order: " + savedOrder.getOrderId() + " " + savedOrder.getCustomerId() + " to database");
         Assertions.assertNotNull(savedOrder);
     }

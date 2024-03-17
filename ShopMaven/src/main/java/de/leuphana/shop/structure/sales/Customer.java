@@ -10,12 +10,12 @@ public class Customer {
 	private String name;
 	private String address;
 	private Cart cart;
-	private Map<Integer, Order> orders;
+	private Map<String, Order> orders;
 
 	public Customer(Cart cart) {
 		this.customerId = ++lastGeneratedCustomerId;
 		this.cart = cart;
-		orders = new HashMap<Integer, Order>();
+		orders = new HashMap<String, Order>();
 	}
 
 	public Integer getCustomerId() {
@@ -50,11 +50,11 @@ public class Customer {
 		this.cart = cart;
 	}
 
-	public Map<Integer, Order> getOrders() {
+	public Map<String, Order> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Map<Integer, Order> orders) {
+	public void setOrders(Map<String, Order> orders) {
 		this.orders = orders;
 	}
 }

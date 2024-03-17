@@ -16,7 +16,8 @@ public class OrderJMSConnectorProvider {
     @JmsListener(destination = "addOrder")
     public Order addOrder(int articleId) {
         System.out.println("Order added: " + articleId);
+        Order order = orderService.addNewOrderToDatabase(articleId, 1);
 // TODO: quantity needs to be implemented
-        return orderService.addNewOrderToDatabase(articleId, 1);
+        return order;
     }
 }

@@ -12,7 +12,10 @@ de\leuphana\shop\structure\article\Article.class
 de\leuphana\shop\structure\billing\InvoicePosition.class
 de\leuphana\shop\behaviour\ShopService.class
 de\leuphana\shop\structure\sales\Cart.class
+de\leuphana\connector\OrderJMSConnectorRequester$1.class
+de\leuphana\connector\OrderJMSConnectorRequester.class
 de\leuphana\shop\structure\article\CD.class
 de\leuphana\shop\structure\sales\CartItem.class
 de\leuphana\shop\structure\sales\Customer.class
+de\leuphana\configuration\JMSRequesterConfiguration.class
 de\leuphana\shop\structure\sales\Order.class

@@ -72,7 +72,7 @@ public class Shop {
 		Cart cart = customer.getCart();
 
 		Order order = new Order();
-		order.setOrderId(1);
+//		order.setOrderId(1);
 
 
 		int i = 1;

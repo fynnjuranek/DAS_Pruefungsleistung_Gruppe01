@@ -4,7 +4,6 @@ import de.leuphana.shop.structure.sales.OrderPosition;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.processing.Generated;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +14,10 @@ public class OrderEntity {
     private String orderId;
     // TODO: CustomerID needs to be deleted i think. The connection should be in customer with "orderID"
 //    private Integer customerId;
-    private List<OrderPositionEntity> orderPositions;
+    private List<OrderPosition> orderPositions;
 
     public OrderEntity() {
-        orderPositions = new ArrayList<OrderPositionEntity>();
+        orderPositions = new ArrayList<OrderPosition>();
     }
 
 //    public int getCustomerId() {
@@ -37,15 +36,15 @@ public class OrderEntity {
         return orderId;
     }
 
-    public List<OrderPositionEntity> getOrderPositions() {
+    public List<OrderPosition> getOrderPositions() {
         return orderPositions;
     }
 
-    public void setOrderPositions(List<OrderPositionEntity> orderPositions) {
+    public void setOrderPositions(List<OrderPosition> orderPositions) {
         this.orderPositions = orderPositions;
     }
 
-    public void addOrderPosition(OrderPositionEntity orderPosition) {
+    public void addOrderPosition(OrderPosition orderPosition) {
         this.orderPositions.add(orderPosition);
     }
 }

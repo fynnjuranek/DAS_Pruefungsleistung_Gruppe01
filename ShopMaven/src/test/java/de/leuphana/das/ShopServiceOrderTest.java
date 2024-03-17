@@ -14,7 +14,9 @@ public class ShopServiceOrderTest {
 
     @Test
     void canOrderBeAdded() {
-        Assertions.assertNotNull(shopService.addOrder(1));
+        de.leuphana.shop.structure.sales.Order orderID = shopService.addOrder(1);
+        System.out.println(orderID);
+        Assertions.assertNotNull(orderID);
     }
 
 }

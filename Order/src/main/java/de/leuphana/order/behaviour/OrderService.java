@@ -2,7 +2,6 @@ package de.leuphana.order.behaviour;
 
 import de.leuphana.order.structure.database.OrderDatabase;
 import de.leuphana.order.structure.database.entity.OrderEntity;
-import de.leuphana.order.structure.database.entity.OrderPositionEntity;
 import de.leuphana.order.structure.database.mapper.OrderMapper;
 import de.leuphana.shop.structure.sales.Order;
 import de.leuphana.shop.structure.sales.OrderPosition;
@@ -38,7 +37,7 @@ public class OrderService {
             // TODO: delete customerID
 //            orderEntity.setCustomerId(customerId);
         }
-        OrderPositionEntity orderPosition = new OrderPositionEntity();
+        OrderPosition orderPosition = new OrderPosition();
         orderPosition.setArticleId(articleId);
 //        orderPosition.setArticlePrice(articlePrice);
         orderPosition.setArticleQuantity(articleQuantity);

@@ -1,11 +1,9 @@
 package de.leuphana.shop.behaviour;
 
-import com.netflix.discovery.converters.Auto;
 import de.leuphana.connector.ArticleRestConnectorRequester;
 import de.leuphana.connector.OrderJMSConnectorRequester;
 import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.sales.Order;
-import org.apache.catalina.servlets.DefaultServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +30,7 @@ public class ShopService {
     }
 
     public Order addOrder(int articleId) {
+
         return orderJMSConnectorRequester.addOrder(articleId);
     }
 
