@@ -29,9 +29,8 @@ public class ShopService {
         return articleRestRequester.addArticle(article);
     }
 
-    public Order addOrder(int articleId) {
-
-        return orderJMSConnectorRequester.addOrder(articleId);
+    public Order addOrder(int articleId, int articleQuantity) {
+        return orderJMSConnectorRequester.addOrder(articleId, articleQuantity);
     }
 
     // Method-layout:

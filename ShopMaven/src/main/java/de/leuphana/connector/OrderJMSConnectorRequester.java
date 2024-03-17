@@ -1,11 +1,10 @@
 package de.leuphana.connector;
 
 import de.leuphana.shop.structure.sales.Order;
-import jakarta.jms.JMSException;
-import jakarta.jms.Message;
-import jakarta.jms.TemporaryQueue;
+import jakarta.jms.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.core.MessagePostProcessor;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +15,13 @@ public class OrderJMSConnectorRequester {
     @Autowired
     JmsTemplate jmsTemplate;
 
-    public Order addOrder(int articleId) {
+    public Order addOrder(int articleId, int articleQuantity) {
         Order respondedOrder = jmsTemplate.execute(session -> {
             TemporaryQueue tempQueue = session.createTemporaryQueue();
             MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
                 @Override
                 public Message postProcessMessage(Message message) throws JMSException {
+                    message.setIntProperty("articleQuantity", articleQuantity);
                     message.setJMSReplyTo(tempQueue);
                     return message;
                 }
