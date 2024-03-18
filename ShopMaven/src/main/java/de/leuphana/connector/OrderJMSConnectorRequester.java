@@ -1,10 +1,11 @@
 package de.leuphana.connector;
 
 import de.leuphana.shop.structure.sales.Order;
-import jakarta.jms.*;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.TemporaryQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.core.MessagePostProcessor;
 import org.springframework.stereotype.Component;
 
@@ -30,5 +31,37 @@ public class OrderJMSConnectorRequester {
             return (Order) jmsTemplate.receiveAndConvert(tempQueue);
         });
         return respondedOrder;
+    }
+
+    public Order getOrder(String orderId) {
+        Order foundOrder = jmsTemplate.execute(session -> {
+            TemporaryQueue tempQueue = session.createTemporaryQueue();
+            MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
+                @Override
+                public Message postProcessMessage(Message message) throws JMSException {
+                    message.setJMSReplyTo(tempQueue);
+                    return message;
+                }
+            };
+            jmsTemplate.convertAndSend("getOrder", orderId, messagePostProcessor);
+            return (Order) jmsTemplate.receiveAndConvert(tempQueue);
+        });
+        return foundOrder;
+    }
+
+    public Order deleteOrder(String orderId) {
+        Order deletedOrder = jmsTemplate.execute(session -> {
+            TemporaryQueue tempQueue = session.createTemporaryQueue();
+            MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
+                @Override
+                public Message postProcessMessage(Message message) throws JMSException {
+                    message.setJMSReplyTo(tempQueue);
+                    return message;
+                }
+            };
+            jmsTemplate.convertAndSend("deleteOrder", orderId, messagePostProcessor);
+            return (Order) jmsTemplate.receiveAndConvert(tempQueue);
+        });
+        return deletedOrder;
     }
 }

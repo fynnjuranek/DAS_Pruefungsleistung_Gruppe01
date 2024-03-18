@@ -29,8 +29,23 @@ public class ShopService {
         return articleRestRequester.addArticle(article);
     }
 
+    public Article deleteArticleByName(String name) {
+        return articleRestRequester.deleteArticleByName(name);
+    }
+
     public Order addOrder(int articleId, int articleQuantity) {
         return orderJMSConnectorRequester.addOrder(articleId, articleQuantity);
+
+        // TODO: add orderID to customers
+
+    }
+
+    public Order getOrder(String orderId) {
+        return orderJMSConnectorRequester.getOrder(orderId);
+    }
+
+    public Order deleteOrder(String orderId) {
+        return orderJMSConnectorRequester.deleteOrder(orderId);
     }
 
     // Method-layout:
@@ -40,7 +55,4 @@ public class ShopService {
     addArticleToOrder() (only ArticleID)
      */
 
-    public Article deleteArticleByName(String name) {
-        return articleRestRequester.deleteArticleByName(name);
-    }
 }

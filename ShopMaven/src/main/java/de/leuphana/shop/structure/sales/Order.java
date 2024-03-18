@@ -43,10 +43,13 @@ public class Order implements Serializable {
 	}
 
 	public int getNumberOfArticles() {
-		// TODO Auto-generated method stub
-		return 0;
+		int quantity = 0;
+		for (OrderPosition orderPosition : orderPositions) {
+			quantity += orderPosition.getArticleQuantity();
+		}
+		return quantity;
 	}
-
+//
 //	public double getTotalPrice() {
 //		double totalPrice = 0.0;
 //

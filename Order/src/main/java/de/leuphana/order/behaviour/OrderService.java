@@ -8,6 +8,7 @@ import de.leuphana.shop.structure.sales.OrderPosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,16 +47,22 @@ public class OrderService {
         return orderMapper.mapToOrder(orderDatabase.save(orderEntity));
     }
 
-    public Order findOrderById(Integer orderID) {
-        return null;
+    public Order findOrderById(String orderID) {
+        OrderEntity foundOrderEntity = orderDatabase.findById(orderID).get();
+        return orderMapper.mapToOrder(foundOrderEntity);
     }
 
     public List<Order> findAllOrders() {
-        return null;
+        List<Order> orders = new ArrayList<>();
+        for (OrderEntity orderEntity : orderDatabase.findAll()) {
+            orders.add(orderMapper.mapToOrder(orderEntity));
+        }
+        return orders;
     }
 
-    public Order deleteOrderById(Integer orderId) {
-        return null;
+    public Order deleteOrderById(String orderId) {
+        OrderEntity deletedOrder = orderDatabase.deleteOrderEntityByOrderId(orderId);
+        return orderMapper.mapToOrder(deletedOrder);
     }
 
 }
