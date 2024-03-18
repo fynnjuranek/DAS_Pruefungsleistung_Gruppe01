@@ -14,17 +14,17 @@ public class CustomerEntity {
     private String address;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "cart_entity_id")
     private CartEntity cartEntity;
 
     // TODO: change Orders to orderID (only reference)
     @ElementCollection
-    private List<Integer> orderIDs;
+    private List<String> orderIDs;
 
     public CustomerEntity() {
     }
 
-    public CustomerEntity(String name, String address, CartEntity cartEntity, List<Integer> orders) {
+    public CustomerEntity(String name, String address, CartEntity cartEntity, List<String> orders) {
         this.name = name;
         this.address = address;
         this.cartEntity = cartEntity;
@@ -64,15 +64,15 @@ public class CustomerEntity {
         this.cartEntity = cartEntity;
     }
 
-    public List<Integer> getOrderIDs() {
+    public List<String> getOrderIDs() {
         return orderIDs;
     }
 
-    public void setOrderIDs(List<Integer> orderIDs) {
+    public void setOrderIDs(List<String> orderIDs) {
         this.orderIDs = orderIDs;
     }
 
-    public void addOrder(int orderID) {
+    public void addOrder(String orderID) {
         this.orderIDs.add(orderID);
     }
 

@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "cart")
 public class CartEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @OneToMany(mappedBy = "cartEntity", cascade = CascadeType.ALL)
     private List<CartItemEntity> cartItems;
+
     private int numberOfArticles;
 
     public CartEntity() {
@@ -38,18 +38,23 @@ public class CartEntity {
         this.numberOfArticles = numberOfArticles;
     }
 
+    // TODO: delete code which is business information
     public void addCartItem(int articleId) {
-        CartItemEntity cartItem;
-
+        CartItemEntity cartItem = null;
         for (CartItemEntity cartItemEntity : cartItems) {
             if (cartItemEntity.getArticleId() == articleId) {
                 cartItem = cartItems.get(cartItems.indexOf(cartItemEntity));
                 cartItem.incrementQuantity();
-            } else {
-                cartItem = new CartItemEntity();
-                cartItems.add(cartItem);
+                cartItem.setCartEntity(this);
             }
         }
+        if (cartItem == null) {
+            cartItem = new CartItemEntity();
+            cartItem.setArticleId(articleId);
+            cartItem.incrementQuantity();
+            cartItem.setCartEntity(this);
+        }
+        cartItems.add(cartItem);
         numberOfArticles++;
     }
 

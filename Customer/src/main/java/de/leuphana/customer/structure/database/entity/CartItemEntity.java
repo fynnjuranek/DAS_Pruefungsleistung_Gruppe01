@@ -9,7 +9,7 @@ public class  CartItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartItemId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private CartEntity cartEntity;
 

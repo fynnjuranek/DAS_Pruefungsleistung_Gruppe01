@@ -1,5 +1,6 @@
 package de.leuphana.customer.behaviour;
 import de.leuphana.customer.structure.database.entity.CartEntity;
+import de.leuphana.customer.structure.database.entity.CartItemEntity;
 import de.leuphana.customer.structure.database.entity.CustomerEntity;
 import de.leuphana.customer.structure.database.CustomerDatabase;
 
@@ -29,8 +30,10 @@ public class CustomerService {
         }
         CartEntity cartEntity = customerMapper.mapToCartEntity(customer.getCart());
 
-        for (CartItem cartItem : customer.getCart().getCartItems()) {
-            cartEntity.addCartItem(cartItem.getArticleId());
+        // This is needed to set the relationship between orderId in cart_item_entity
+        // and cart_entity (tables). So every cartItem shows the orderId to which it belongs!
+        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
+            cartItemEntity.setCartEntity(cartEntity);
         }
 
         CustomerEntity customerEntity = customerMapper.mapToCustomerEntity(customer);

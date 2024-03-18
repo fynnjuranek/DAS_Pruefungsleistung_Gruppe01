@@ -2,18 +2,18 @@ package de.leuphana.customer;
 
 import de.leuphana.customer.behaviour.CustomerService;
 import de.leuphana.shop.structure.article.Book;
-import de.leuphana.shop.structure.sales.Cart;
-import de.leuphana.shop.structure.sales.Customer;
+import de.leuphana.shop.structure.article.BookCategory;
+import de.leuphana.shop.structure.article.CD;
 import de.leuphana.shop.structure.sales.Order;
-import de.leuphana.shop.structure.sales.OrderPosition;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import de.leuphana.shop.structure.sales.*;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collection;
+
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerServiceTests {
 
     @Autowired
@@ -29,17 +29,25 @@ class CustomerServiceTests {
         book.setManufacturer("Penguin Verlag");
         book.setAuthor("Steven Pinker");
         book.setPrice(16.0f);
+        Book book2 = new Book();
+        book2.setArticleId(2);
+        book2.setName("Entwickeln von Web-Anwendungen");
+        book2.setPrice(23.0f);
+        book2.setBookCategory(BookCategory.POPULAR_SCIENCE);
+
         Cart cart = new Cart();
         cart.addCartItem(book);
+        cart.addCartItem(book2);
 
         Order order = new Order();
         OrderPosition orderPosition = new OrderPosition();
         orderPosition.setPositionId(1);
         orderPosition.setArticleId(book.getArticleId());
-        orderPosition.setArticlePrice(book.getPrice());
+//        orderPosition.setArticlePrice(book.getPrice());
         orderPosition.setArticleQuantity(1);
 
         order.addOrderPosition(orderPosition);
+        order.setOrderId("TEST ORDER ID");
 
         customer = new Customer(cart);
         customer.addOrder(order);
@@ -53,10 +61,33 @@ class CustomerServiceTests {
     }
 
     @Test
+    @org.junit.jupiter.api.Order(1)
     void canCustomerBeAdded() {
         Customer addedCustomer = customerService.addCustomerToDatabase(customer);
         Assertions.assertNotNull(addedCustomer);
     }
+
+    @Test
+    @org.junit.jupiter.api.Order(2)
+    void canCustomerBeFound() {
+        Customer foundCustomer = customerService.findCustomerByName(customer.getName());
+        System.out.println("Found customer with name: " + foundCustomer.getName());
+        Collection<CartItem> customerCartItems = customer.getCart().getCartItems();
+        System.out.println("Cart items: ");
+        for (CartItem cartItem : customerCartItems) {
+            System.out.println("cartItem id: " + cartItem.getCartItemId() + ", article id: " + cartItem.getArticleId() +
+                    ", quantity: " + cartItem.getQuantity() + ", price: " + cartItem.getPrice());
+        }
+        Assertions.assertNotNull(foundCustomer);
+    }
+
+//    @Test
+//    @org.junit.jupiter.api.Order(3)
+//    void canCustomerBeDeleted() {
+//        Customer deletedCustomer = customerService.deleteCustomerByName(customer.getName());
+//        System.out.println("Deleted customer with name: " + deletedCustomer.getName());
+//        Assertions.assertNotNull(deletedCustomer);
+//    }
 
 
 }

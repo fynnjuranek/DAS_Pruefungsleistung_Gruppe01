@@ -1,6 +1,8 @@
 package de.leuphana.shop.structure.sales;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Customer {
@@ -10,12 +12,14 @@ public class Customer {
 	private String name;
 	private String address;
 	private Cart cart;
-	private Map<String, Order> orders;
+	private List<String> orderIDs;
+
+	public Customer() {}
 
 	public Customer(Cart cart) {
 		this.customerId = ++lastGeneratedCustomerId;
 		this.cart = cart;
-		orders = new HashMap<String, Order>();
+		orderIDs = new ArrayList<String>();
 	}
 
 	public Integer getCustomerId() {
@@ -27,7 +31,7 @@ public class Customer {
 	}
 	
 	public void addOrder(Order order) {
-		orders.put(order.getOrderId(), order);
+		orderIDs.add(order.getOrderId());
 	}
 
 	public String getName() {
@@ -50,11 +54,11 @@ public class Customer {
 		this.cart = cart;
 	}
 
-	public Map<String, Order> getOrders() {
-		return orders;
+	public List<String> getOrderIDs() {
+		return orderIDs;
 	}
 
-	public void setOrders(Map<String, Order> orders) {
-		this.orders = orders;
+	public void setOrders(List<String> orderIDs) {
+		this.orderIDs = orderIDs;
 	}
 }
