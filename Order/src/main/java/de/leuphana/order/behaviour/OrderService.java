@@ -29,8 +29,8 @@ public class OrderService {
 
     // TODO: I think there needs to be an implementation for List<OrderEntity> with all Orders for a customer
 
-    public Order addNewOrderToDatabase(Integer articleId, int articleQuantity) {
-        OrderEntity orderEntity = null;//orderDatabase.findOrderEntityByCustomerId(customerId);
+    public Order addNewOrderToDatabase(String orderId, Integer articleId, int articleQuantity) {
+        OrderEntity orderEntity = orderDatabase.findOrderEntityByOrderId(orderId);
         // TODO: change this
         // create new order if it doesn't already exist
         if (orderEntity == null) {
@@ -44,6 +44,11 @@ public class OrderService {
         orderPosition.setArticleQuantity(articleQuantity);
         orderEntity.addOrderPosition(orderPosition);
 
+        return orderMapper.mapToOrder(orderDatabase.save(orderEntity));
+    }
+
+    public Order createNewOrder() {
+        OrderEntity orderEntity = new OrderEntity();
         return orderMapper.mapToOrder(orderDatabase.save(orderEntity));
     }
 

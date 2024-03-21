@@ -9,7 +9,7 @@ public class  CartItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartItemId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id")
     private CartEntity cartEntity;
 
@@ -47,14 +47,6 @@ public class  CartItemEntity {
 
     public int getQuantity() {
         return quantity;
-    }
-
-    public void incrementQuantity() {
-        quantity++;
-    }
-
-    public void decrementQuantity() {
-        quantity--;
     }
 
     public Float getPrice() {

@@ -20,10 +20,16 @@ public class OrderJMSConnectorRequester {
     @JmsListener(destination = OrderJMSConnectorProvider.ADD_ORDER)
     public Order addOrder(int articleId, Message message) throws JMSException {
         int articleQuantity = message.getIntProperty(OrderJMSConnectorProvider.ARTICLE_QUANTITY);
+        String orderId = message.getStringProperty(OrderJMSConnectorProvider.ORDER_ID);
         // TODO: debugging
         System.out.println("Order added: " + articleId);
-        Order order = orderService.addNewOrderToDatabase(articleId, articleQuantity);
+        Order order = orderService.addNewOrderToDatabase(orderId, articleId, articleQuantity);
         return order;
+    }
+
+    @JmsListener(destination = OrderJMSConnectorProvider.CREATE_ORDER)
+    public Order createOrder() {
+        return orderService.createNewOrder();
     }
 
     @JmsListener(destination = OrderJMSConnectorProvider.GET_ORDER)

@@ -23,15 +23,12 @@ class OrderServiceTests {
     static de.leuphana.shop.structure.sales.Order order;
 
     @Test
-    void contextLoads() {
-    }
-
-    @Test
     @Order(1)
     void canOrderBeAdded() {
         int articleId = 1;
         int articleQuantity = 2;
-        order = orderService.addNewOrderToDatabase(articleId, articleQuantity);
+        order = orderService.createNewOrder();
+        order = orderService.addNewOrderToDatabase(order.getOrderId(), articleId, articleQuantity);
         System.out.println("Added order with id: " + order.getOrderId());
         Assertions.assertNotNull(order);
     }

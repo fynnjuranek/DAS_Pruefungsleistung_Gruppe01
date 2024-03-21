@@ -26,12 +26,20 @@ public class Customer {
 		return customerId;
 	}
 
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
+	public void setOrderIDs(List<String> orderIDs) {
+		this.orderIDs = orderIDs;
+	}
+
 	public Cart getCart() {
 		return cart;
 	}
 	
-	public void addOrder(Order order) {
-		orderIDs.add(order.getOrderId());
+	public void addOrder(String orderId) {
+		orderIDs.add(orderId);
 	}
 
 	public String getName() {

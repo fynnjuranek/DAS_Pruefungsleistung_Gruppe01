@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collection;
+import java.util.List;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -50,7 +51,7 @@ class CustomerServiceTests {
         order.setOrderId("TEST ORDER ID");
 
         customer = new Customer(cart);
-        customer.addOrder(order);
+        customer.addOrder(order.getOrderId());
         customer.setAddress("Test address");
         customer.setName("Test");
     }
@@ -70,13 +71,18 @@ class CustomerServiceTests {
     @Test
     @org.junit.jupiter.api.Order(2)
     void canCustomerBeFound() {
-        Customer foundCustomer = customerService.findCustomerByName(customer.getName());
+        Customer foundCustomer = customerService.findCustomerByCustomerId(customer.getCustomerId());
         System.out.println("Found customer with name: " + foundCustomer.getName());
-        Collection<CartItem> customerCartItems = customer.getCart().getCartItems();
+        List<CartItem> customerCartItems = customer.getCart().getCartItems();
         System.out.println("Cart items: ");
         for (CartItem cartItem : customerCartItems) {
-            System.out.println("cartItem id: " + cartItem.getCartItemId() + ", article id: " + cartItem.getArticleId() +
+            System.out.println("article id: " + cartItem.getArticleId() +
                     ", quantity: " + cartItem.getQuantity() + ", price: " + cartItem.getPrice());
+        }
+        List<String> orderIDs = foundCustomer.getOrderIDs();
+        System.out.println("Order IDs: ");
+        for (String orderID : orderIDs) {
+            System.out.println("id: " + orderID);
         }
         Assertions.assertNotNull(foundCustomer);
     }

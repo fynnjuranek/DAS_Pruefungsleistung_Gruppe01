@@ -17,8 +17,7 @@ public class CustomerEntity {
     @JoinColumn(name = "cart_entity_id")
     private CartEntity cartEntity;
 
-    // TODO: change Orders to orderID (only reference)
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> orderIDs;
 
     public CustomerEntity() {
@@ -75,5 +74,4 @@ public class CustomerEntity {
     public void addOrder(String orderID) {
         this.orderIDs.add(orderID);
     }
-
 }

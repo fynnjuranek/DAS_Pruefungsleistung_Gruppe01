@@ -61,6 +61,17 @@ public class ArticleService {
         return article;
     }
 
+    public Article findArticleById(int articleId) {
+        ArticleEntity articleEntity = articleDatabase.findArticleEntityByArticleId(articleId);
+        Article article = null;
+        if (articleEntity instanceof BookEntity) {
+            article = articleMapper.mapToBook((BookEntity) articleEntity);
+        } else if (articleEntity instanceof CdEntity) {
+            article = articleMapper.mapToCd((CdEntity) articleEntity);
+        }
+        return article;
+    }
+
     public List<Article> findAllArticles() {
         List<ArticleEntity> articleEntities = articleDatabase.findAll();
         List<Article> articles = new ArrayList<>();

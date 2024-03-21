@@ -5,4 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface OrderDatabase extends MongoRepository<OrderEntity, String> {
     OrderEntity deleteOrderEntityByOrderId(String orderId);
+    OrderEntity findOrderEntityByOrderId(String orderId);
 }

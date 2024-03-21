@@ -15,6 +15,8 @@ import de.leuphana.shop.structure.sales.Catalog;
 import de.leuphana.shop.structure.sales.Customer;
 import de.leuphana.shop.structure.sales.Order;
 import de.leuphana.shop.structure.sales.OrderPosition;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 public class Shop {
 	private Catalog catalog;
@@ -88,7 +90,7 @@ public class Shop {
 		}
 		order.setOrderPositions(orderPositions);
 
-		customer.addOrder(order);
+		customer.addOrder(order.getOrderId());
 
 		return order;
 	}

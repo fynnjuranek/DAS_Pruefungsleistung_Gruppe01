@@ -1,9 +1,9 @@
 package de.leuphana.shop.structure.sales;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.leuphana.shop.structure.article.Article;
 
 public class CartItem {
-
 	private int cartItemId;
 	private Integer articleId;
 	private int quantity;
@@ -43,5 +43,13 @@ public class CartItem {
 
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+
+	public void setCartItemId(int cartItemId) {
+		this.cartItemId = cartItemId;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 }

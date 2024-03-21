@@ -18,6 +18,11 @@ public class ArticleRestConnectorProvider {
         return articleService.findArticleByName(name);
     }
 
+    @RequestMapping("/getArticle/{articleId}")
+    public Article findArticleByArticleId(@PathVariable("articleId") Integer articleId) {
+        return articleService.findArticleById(articleId);
+    }
+
     @RequestMapping("/getArticles")
     public List<Article> findAllArticles() {
         return articleService.findAllArticles();
@@ -32,5 +37,7 @@ public class ArticleRestConnectorProvider {
     public Article deleteArticleByName(@PathVariable("name") String name) {
         return articleService.deleteArticleByName(name);
     }
+
+
 
 }
