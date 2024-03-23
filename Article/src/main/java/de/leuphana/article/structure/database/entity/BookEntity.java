@@ -10,9 +10,10 @@ public class BookEntity extends ArticleEntity {
     public BookEntity() {
     }
 
-    public BookEntity(String manufacturer, String name, float price, String author) {
+    public BookEntity(String manufacturer, String name, float price, String author, String bookCategory) {
         super(manufacturer, name, price);
         this.author = author;
+        this.bookCategory = bookCategory;
     }
     public String getAuthor() {
         return author;

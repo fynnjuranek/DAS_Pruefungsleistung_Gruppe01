@@ -14,12 +14,21 @@ public class Customer {
 	private Cart cart;
 	private List<String> orderIDs;
 
-	public Customer() {}
+	public Customer() {
+		cart = new Cart();
+	}
 
 	public Customer(Cart cart) {
 		this.customerId = ++lastGeneratedCustomerId;
 		this.cart = cart;
 		orderIDs = new ArrayList<String>();
+	}
+
+	public Customer(String name, String address) {
+		cart = new Cart();
+		orderIDs = new ArrayList<>();
+		this.name = name;
+		this.address = address;
 	}
 
 	public Integer getCustomerId() {

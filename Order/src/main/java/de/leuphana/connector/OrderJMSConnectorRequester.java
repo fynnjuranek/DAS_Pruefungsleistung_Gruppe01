@@ -17,27 +17,27 @@ public class OrderJMSConnectorRequester {
     @Autowired
     OrderService orderService;
 
-    @JmsListener(destination = OrderJMSConnectorProvider.ADD_ORDER)
+    @JmsListener(destination = OrderJMSConnectorSender.ADD_ORDER)
     public Order addOrder(int articleId, Message message) throws JMSException {
-        int articleQuantity = message.getIntProperty(OrderJMSConnectorProvider.ARTICLE_QUANTITY);
-        String orderId = message.getStringProperty(OrderJMSConnectorProvider.ORDER_ID);
+        int articleQuantity = message.getIntProperty(OrderJMSConnectorSender.ARTICLE_QUANTITY);
+        String orderId = message.getStringProperty(OrderJMSConnectorSender.ORDER_ID);
         // TODO: debugging
         System.out.println("Order added: " + articleId);
         Order order = orderService.addNewOrderToDatabase(orderId, articleId, articleQuantity);
         return order;
     }
 
-    @JmsListener(destination = OrderJMSConnectorProvider.CREATE_ORDER)
+    @JmsListener(destination = OrderJMSConnectorSender.CREATE_ORDER)
     public Order createOrder() {
         return orderService.createNewOrder();
     }
 
-    @JmsListener(destination = OrderJMSConnectorProvider.GET_ORDER)
+    @JmsListener(destination = OrderJMSConnectorSender.GET_ORDER)
     public Order getOrder(String orderId) throws JMSException {
         return orderService.findOrderById(orderId);
     }
 
-    @JmsListener(destination = OrderJMSConnectorProvider.DELETE_ORDER)
+    @JmsListener(destination = OrderJMSConnectorSender.DELETE_ORDER)
     public Order deleteOrder(String orderId) throws JMSException {
         return orderService.deleteOrderById(orderId);
     }

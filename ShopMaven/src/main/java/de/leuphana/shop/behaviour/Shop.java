@@ -58,7 +58,7 @@ public class Shop {
 
 		Cart cart = customers.get(customerId).getCart();
 
-		cart.addCartItem(foundArticle);
+//		cart.addCartItem(foundArticle);
 	}
 
 	public void decrementArticleQuantityInCart(Integer customerId,

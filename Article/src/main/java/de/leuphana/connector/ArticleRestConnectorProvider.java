@@ -13,11 +13,6 @@ public class ArticleRestConnectorProvider {
     @Autowired
     ArticleService articleService;
 
-    @RequestMapping("/getArticle/{name}")
-    public Article findArticleByName(@PathVariable("name") String name) {
-        return articleService.findArticleByName(name);
-    }
-
     @RequestMapping("/getArticle/{articleId}")
     public Article findArticleByArticleId(@PathVariable("articleId") Integer articleId) {
         return articleService.findArticleById(articleId);

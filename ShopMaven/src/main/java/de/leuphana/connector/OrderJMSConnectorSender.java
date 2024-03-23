@@ -10,7 +10,7 @@ import org.springframework.jms.core.MessagePostProcessor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderJMSConnectorProvider {
+public class OrderJMSConnectorSender {
     // TODO: Maybe the name needs to be changed!
 
     // This is the provider because it sends the message to the queue,
@@ -34,13 +34,13 @@ public class OrderJMSConnectorProvider {
             MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
                 @Override
                 public Message postProcessMessage(Message message) throws JMSException {
-                    message.setIntProperty(OrderJMSConnectorProvider.ARTICLE_QUANTITY, articleQuantity);
-                    message.setStringProperty(OrderJMSConnectorProvider.ORDER_ID, orderId);
+                    message.setIntProperty(OrderJMSConnectorSender.ARTICLE_QUANTITY, articleQuantity);
+                    message.setStringProperty(OrderJMSConnectorSender.ORDER_ID, orderId);
                     message.setJMSReplyTo(tempQueue);
                     return message;
                 }
             };
-            jmsTemplate.convertAndSend(OrderJMSConnectorProvider.ADD_ORDER, articleId, messagePostProcessor);
+            jmsTemplate.convertAndSend(OrderJMSConnectorSender.ADD_ORDER, articleId, messagePostProcessor);
             return (Order) jmsTemplate.receiveAndConvert(tempQueue);
         });
         return respondedOrder;
@@ -56,7 +56,7 @@ public class OrderJMSConnectorProvider {
                     return message;
                 }
             };
-            jmsTemplate.convertAndSend(OrderJMSConnectorProvider.CREATE_ORDER, 0, messagePostProcessor);
+            jmsTemplate.convertAndSend(OrderJMSConnectorSender.CREATE_ORDER, 0, messagePostProcessor);
             return (Order) jmsTemplate.receiveAndConvert(tempQueue);
         });
     }
@@ -71,7 +71,7 @@ public class OrderJMSConnectorProvider {
                     return message;
                 }
             };
-            jmsTemplate.convertAndSend(OrderJMSConnectorProvider.GET_ORDER, orderId, messagePostProcessor);
+            jmsTemplate.convertAndSend(OrderJMSConnectorSender.GET_ORDER, orderId, messagePostProcessor);
             return (Order) jmsTemplate.receiveAndConvert(tempQueue);
         });
         return foundOrder;
@@ -87,7 +87,7 @@ public class OrderJMSConnectorProvider {
                     return message;
                 }
             };
-            jmsTemplate.convertAndSend(OrderJMSConnectorProvider.DELETE_ORDER, orderId, messagePostProcessor);
+            jmsTemplate.convertAndSend(OrderJMSConnectorSender.DELETE_ORDER, orderId, messagePostProcessor);
             return (Order) jmsTemplate.receiveAndConvert(tempQueue);
         });
         return deletedOrder;

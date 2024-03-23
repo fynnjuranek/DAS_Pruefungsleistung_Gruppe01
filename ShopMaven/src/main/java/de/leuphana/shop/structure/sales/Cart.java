@@ -14,20 +14,20 @@ public class Cart {
 		numberOfArticles = 0;
 	}
 
-	public void addCartItem(Article article) {
+	public void addCartItem(Article article, Integer articleQuantity) {
 		CartItem cartItem = null;
 		for (CartItem cartItemEntity : cartItems) {
 			if (Objects.equals(cartItemEntity.getArticleId(), article.getArticleId())) {
 				cartItem = cartItems.get(cartItems.indexOf(cartItemEntity));
-				cartItem.incrementQuantity();
+//				cartItem.incrementQuantity();
 			}
 		}
 		if (cartItem == null) {
 			cartItem = new CartItem();
 			cartItem.setArticleId(article.getArticleId());
 			cartItem.setPrice(article.getPrice());
-			cartItem.incrementQuantity();
 		}
+		cartItem.setQuantity(articleQuantity);
 		cartItems.add(cartItem);
 		numberOfArticles++;
 	}

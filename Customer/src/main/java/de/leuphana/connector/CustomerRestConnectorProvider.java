@@ -1,6 +1,7 @@
 package de.leuphana.connector;
 
 import de.leuphana.customer.behaviour.CustomerService;
+import de.leuphana.shop.structure.sales.Cart;
 import de.leuphana.shop.structure.sales.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,10 +36,15 @@ public class CustomerRestConnectorProvider {
         return customerService.addOrderToCustomer(customerId, orderId);
     }
 
+    @RequestMapping("/updateCart")
+    public Customer updateCart(@RequestBody Cart cart, @RequestParam Integer customerId) {
+        return customerService.updateCart(cart, customerId);
+    }
 
-    @RequestMapping("/deleteCustomer/{name}")
-    public Customer deleteCustomerByName(@PathVariable("name") String name) {
-        return customerService.deleteCustomerByName(name);
+
+    @RequestMapping("/deleteCustomer/{customerId}")
+    public Customer deleteCustomerByCustomerId(@PathVariable("customerId") Integer customerId) {
+        return customerService.deleteCustomerByCustomerId(customerId);
     }
 
 }

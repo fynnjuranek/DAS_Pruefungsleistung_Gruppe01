@@ -1,104 +1,87 @@
 package de.leuphana.das;
 
+import com.netflix.discovery.converters.Auto;
 import de.leuphana.shop.behaviour.ShopService;
 import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
+import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
+import de.leuphana.shop.structure.sales.Cart;
+import de.leuphana.shop.structure.sales.CartItem;
+import de.leuphana.shop.structure.sales.Customer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ShopServiceTest {
+public class ShopServiceTest {
 
     @Autowired
     ShopService shopService;
 
-    static Book book;
-    static CD cd;
+    static Article addedBook;
+    static Article addedCD;
+    static Integer customerId;
 
-    @BeforeEach
-    void setUp() {
-        book = new Book();
-        book.setName("Sprechen Sie Java?");
-        book.setManufacturer("d.punkt.verlag");
-        book.setAuthor("Hanspeter Mössenböck");
-        book.setPrice(29.90f);
-        // TODO: add book category
-
-        cd = new CD();
-        cd.setName("Vampire Weekend");
-        cd.setManufacturer("XL Recordings Ltd");
-        cd.setArtist("Vampire Weekend");
-        cd.setPrice(8.49f);
-    }
-    // TODO: Maybe better solution to implement a mocker for article and eureka... dont know
-
-    // Test works if Gateway and Article are started already
-    // maybe it needs 1-2 seconds so article is 100% registered on the discovery-service (eureka-server)
     @Test
     @Order(1)
-    void canBookBeAdded() {
-        Article addedArticle = shopService.addArticle(book);
-        System.out.println("Added article to database: " + book.getName());
-        Assertions.assertNotNull(addedArticle);
+    void canCustomerBeCreated() {
+        String customerName = "Max Mustermann";
+        String customerAddress = "Musterstraße 32, 21335 Lüneburg";
+        customerId = shopService.createCustomer(customerName, customerAddress);
+        System.out.println("Customer with id: " + customerId + " has been created.");
+        Assertions.assertNotNull(customerId);
     }
 
     @Test
     @Order(2)
-    void canCDBeAdded() {
-        Article addedArticle = shopService.addArticle(cd);
-        System.out.println("Added article to database: " + cd.getName());
-        Assertions.assertNotNull(addedArticle);
+    void canArticlesBeAddedToDatabase() {
+        Book book = new Book();
+        book.setName("THINKING, FAST AND SLOW");
+        book.setManufacturer("Penguin Verlag");
+        book.setAuthor("Steven Pinker");
+        book.setPrice(16.0f);
+        book.setBookCategory(BookCategory.POPULAR_SCIENCE);
+        CD cd = new CD();
+        cd.setName("GO:OD AM");
+        cd.setArtist("Mac Miller");
+        cd.setPrice(16.99f);
+        cd.setManufacturer("Warner Records Inc.");
+        addedBook = shopService.addArticle(book);
+        addedCD = shopService.addArticle(cd);
+        Assertions.assertEquals(book.getName(), addedBook.getName());
     }
 
     @Test
     @Order(3)
-    void canBookBeFoundByName() {
-        Article foundArticle = shopService.getArticleByName(book.getName());
-        Book foundBook = null;
-        if (foundArticle instanceof Book) {
-            foundBook = (Book) foundArticle;
-            // Use book specific information to show that there is no information loss
-            System.out.println("Found book with Author: " + foundBook.getAuthor());
-        }
-        Assertions.assertNotNull(foundBook);
+    void canArticlesBeAddedToCart() {
+        Integer bookQuantity = 4;
+        Integer cdQuantity = 2;
+        shopService.addArticleToCart(customerId, addedBook.getArticleId(), bookQuantity);
+        Cart cart = shopService.addArticleToCart(customerId, addedCD.getArticleId(), cdQuantity);
+
+//        CartItem cartItem = new CartItem();
+        Integer numberOfAddedDistinctArticles = 2;
+        Assertions.assertEquals(numberOfAddedDistinctArticles, cart.getNumberOfArticles());
+
     }
 
     @Test
     @Order(4)
-    void canCDBeFoundByName() {
-        Article foundArticle = shopService.getArticleByName(cd.getName());
-        CD foundCD = null;
-        if (foundArticle instanceof CD) {
-            foundCD = (CD) foundArticle;
-            // Use CD specific information to show that there is no information loss
-            System.out.println("Found CD with artist: " + foundCD.getArtist());
-        }
-        Assertions.assertNotNull(foundCD);
+    void canCheckOutCartBeCreated() {
+        de.leuphana.shop.structure.sales.Order order = shopService.checkOutCart(customerId);
+        // This is explicitly for the newest order we added to the customer.
+        // Otherwise, we would get an error when running this test multiple times
+        // because one customer can hold multiple orderIds
+        List<String> orderIDsOfCustomer = shopService.getCustomer(customerId).getOrderIDs();
+        String addedOrderIdOfCustomer = orderIDsOfCustomer.get(orderIDsOfCustomer.indexOf(order.getOrderId()));
+
+        Assertions.assertEquals(order.getOrderId(), addedOrderIdOfCustomer);
     }
 
-    @Test
-    @Order(5)
-    void canArticlesBeFound() {
-        List<Article> articles = shopService.getArticles();
-        System.out.println("Found articles with names: ");
-        for (Article article : articles) {
-            System.out.println(article.getName());
-        }
-        // assert articles == not empty
-        Assertions.assertFalse(articles.isEmpty());
-    }
-
-    @Test
-    @Order(6)
-    void canArticleBeDeleted() {
-        Article article = shopService.deleteArticleByName(cd.getName());
-        System.out.println("Successfully deleted article: " + article.getName());
-        Assertions.assertNotNull(article);
-    }
 
 }

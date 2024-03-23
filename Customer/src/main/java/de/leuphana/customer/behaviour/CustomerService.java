@@ -23,27 +23,17 @@ public class CustomerService {
     CustomerMapper customerMapper;
 
     public Customer addCustomerToDatabase(Customer customer){
-//        CustomerEntity foundCustomerEntity = customerDatabase.findCustomerEntityByCustomerId(customer.getCustomerId());
-//        if (foundCustomerEntity != null) {
-//            customerDatabase.deleteById(foundCustomerEntity.getCustomerId());
-//            // TODO: Right now the articleId is adding up with every article (JPA-Generation), maybe add function to set the articleId after mapping (entity creation).
-//        }
-        CartEntity cartEntity = customerMapper.mapToCartEntity(customer.getCart());
-        System.out.println(cartEntity.getCartItems());
-        // This is needed to set the relationship between orderId in cart_item_entity
-        // and cart_entity (tables). So every cartItem shows the orderId to which it belongs!
-        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
-            cartItemEntity.setCartEntity(cartEntity);
-            System.out.println(cartItemEntity.getArticleId());
-        }
+
         CustomerEntity customerEntity = customerMapper.mapToCustomerEntity(customer);
+        CartEntity cartEntity = customerMapper.mapToCartEntity(customer.getCart());
         customerEntity.setCartEntity(cartEntity);
         // To be 100% sure that the customer got properly saved!
         CustomerEntity savedCustomer = customerDatabase.save(customerEntity);
         // This needs to be explicitly set because otherwise the cart is null in "mappedCustomer"
         Customer mappedCustomer = customerMapper.mapToCustomer(savedCustomer);
-        mappedCustomer.setCart(customerMapper.mapToCart(cartEntity));
-        System.out.println(mappedCustomer.getCart().getCartItems());
+//        mappedCustomer.getCart().setId(cartEntity.getId());
+//        mappedCustomer.setCart(customerMapper.mapToCart(cartEntity));
+//        System.out.println(mappedCustomer.getCart().getCartItems());
         return mappedCustomer;
     }
 
@@ -59,25 +49,32 @@ public class CustomerService {
         CustomerEntity customerEntity = customerDatabase.findCustomerEntityByCustomerId(customerId);
         CartEntity cartEntity = customerEntity.getCartEntity();
         Customer customer = customerMapper.mapToCustomer(customerEntity);
-//        customer.addOrder(orderId);
-        System.out.println(customer.getOrderIDs());
-        customer.setCustomerId(customerEntity.getCustomerId());
-        customer.setCart(customerMapper.mapToCart(customerEntity.getCartEntity()));
-        customer.getCart().setId(cartEntity.getId());
-//        customer.getCart().
-
-//        customer.getCart().setCartItems(null);
-//        customer.setCart(null);
+        customer.addOrder(orderId);
 
         CustomerEntity mappedCustomer = customerMapper.mapToCustomerEntity(customer);
-        mappedCustomer.setCartEntity(customerMapper.mapToCartEntity(customer.getCart()));
-        mappedCustomer.addOrder(orderId);
+        mappedCustomer.setCartEntity(cartEntity);
         System.out.println(mappedCustomer.getOrderIDs());
-//        mappedCustomer.getCartEntity().setCartItems(null);
-//        mappedCustomer.setCartEntity(null);
-
+        System.out.println(cartEntity.getId() + " this should be the id of cartEntity");
 
         return customerMapper.mapToCustomer(customerDatabase.save(mappedCustomer));
+    }
+
+    public Customer updateCart(Cart cart, Integer customerId) {
+        CustomerEntity customerEntity = customerDatabase.findCustomerEntityByCustomerId(customerId);
+        // Set the id of normal cart before mapping to entity because otherwise the id will be new generated, and it needs to stay the same!
+        cart.setId(customerEntity.getCartEntity().getId());
+        CartEntity cartEntity = customerMapper.mapToCartEntity(cart);
+        System.out.println(cartEntity.getId() + " this should be the id of cartEntity");
+        for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
+            cartItemEntity.setCartEntity(cartEntity);
+            System.out.println("cartItemEntity id: " + cartItemEntity.getCartEntity().getId());
+        }
+        customerEntity.setCartEntity(cartEntity);
+        CustomerEntity savedCustomer = customerDatabase.save(customerEntity);
+        Customer mappedCustomer = customerMapper.mapToCustomer(savedCustomer);
+        mappedCustomer.setCart(customerMapper.mapToCart(cartEntity));
+
+        return mappedCustomer;
     }
 
     public Customer findCustomerByCustomerId(Integer customerId) {
@@ -101,8 +98,8 @@ public class CustomerService {
         return customers;
     }
 
-    public Customer deleteCustomerByName(String name) {
-        CustomerEntity customerEntity = customerDatabase.findCustomerEntityByName(name);
+    public Customer deleteCustomerByCustomerId(Integer customerId) {
+        CustomerEntity customerEntity = customerDatabase.findCustomerEntityByCustomerId(customerId);
         customerDatabase.deleteById(customerEntity.getCustomerId());
         return customerMapper.mapToCustomer(customerEntity);
     }

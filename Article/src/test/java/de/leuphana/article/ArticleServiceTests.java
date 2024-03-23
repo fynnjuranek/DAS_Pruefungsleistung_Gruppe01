@@ -7,6 +7,7 @@ import de.leuphana.article.structure.database.entity.CdEntity;
 import de.leuphana.article.structure.database.mapper.ArticleMapper;
 import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
+import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ class ArticleServiceTests {
 
     static CD cd;
     static Book book;
+    static Article addedBook;
+    static Article addedCD;
 
     // TODO: Put mapping tests in separate test-class
     // TODO: Change name of test
@@ -35,7 +38,7 @@ class ArticleServiceTests {
     @Order(1)
     void canBookEntityBeMapped() {
         BookEntity bookEntity = new BookEntity(
-                "Addison-Wesley", "The C++ Programming Language", 64.99f, "Bjarne Stroustrup"
+                "Addison-Wesley", "The C++ Programming Language", 64.99f, "Bjarne Stroustrup", BookCategory.POPULAR_SCIENCE.toString()
         );
         book = articleMapper.mapToBook(bookEntity);
         System.out.println("Mapped bookEntity to book: " + book.getAuthor());
@@ -56,23 +59,23 @@ class ArticleServiceTests {
     @Test
     @Order(3)
     void canBookEntityBeAdded() {
-        Article addedArticle = articleService.addArticleToDatabase(book);
-        System.out.println("Successfully added: " + addedArticle.getName());
-        Assertions.assertNotNull(addedArticle);
+        addedBook = articleService.addArticleToDatabase(book);
+        System.out.println("Successfully added: " + addedBook.getName());
+        Assertions.assertNotNull(addedBook);
     }
 
     @Test
     @Order(4)
     void canCdEntityBeAdded() {
-        Article addedArticle = articleService.addArticleToDatabase(cd);
-        System.out.println("Successfully added: " + addedArticle.getName());
-        Assertions.assertNotNull(addedArticle);
+        addedCD = articleService.addArticleToDatabase(cd);
+        System.out.println("Successfully added: " + addedCD.getName());
+        Assertions.assertNotNull(addedCD);
     }
 
     @Test
     @Order(5)
     void canBookBeFound() {
-        Article article = articleService.findArticleByName("The C++ Programming Language");
+        Article article = articleService.findArticleById(addedBook.getArticleId());
         Book foundBook = null;
         if (article instanceof Book) {
             foundBook = (Book) article;
@@ -84,7 +87,7 @@ class ArticleServiceTests {
     @Test
     @Order(6)
     void canCdBeFound() {
-        Article article = articleService.findArticleByName("Vampire Weekend");
+        Article article = articleService.findArticleById(addedCD.getArticleId());
         CD foundCD = null;
         if (article instanceof CD) {
             foundCD = (CD) article;

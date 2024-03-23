@@ -12,8 +12,8 @@ import java.util.List;
 @FeignClient("Article")
 public interface ArticleRestConnectorRequester {
 
-    @RequestMapping("/getArticle/{name}")
-    Article getArticleByName(@PathVariable("name") String name);
+//    @RequestMapping("/getArticle/{name}")
+//    Article getArticleByName(@PathVariable("name") String name);
 
     @RequestMapping("/getArticle/{articleId}")
     Article getArticleByArticleId(@PathVariable("articleId") Integer articleId);

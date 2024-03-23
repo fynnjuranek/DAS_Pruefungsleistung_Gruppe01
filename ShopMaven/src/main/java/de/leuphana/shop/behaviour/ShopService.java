@@ -2,12 +2,11 @@ package de.leuphana.shop.behaviour;
 
 import de.leuphana.connector.ArticleRestConnectorRequester;
 import de.leuphana.connector.CustomerRestConnectorRequester;
-import de.leuphana.connector.OrderJMSConnectorProvider;
+import de.leuphana.connector.OrderJMSConnectorSender;
 import de.leuphana.shop.structure.article.Article;
-import de.leuphana.shop.structure.article.Book;
-import de.leuphana.shop.structure.article.BookCategory;
+import de.leuphana.shop.structure.billing.Invoice;
+import de.leuphana.shop.structure.billing.InvoicePosition;
 import de.leuphana.shop.structure.sales.*;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +19,10 @@ public class ShopService {
     ArticleRestConnectorRequester articleRestConnectorRequester;
 
     @Autowired
-    OrderJMSConnectorProvider orderJMSConnectorProvider;
+    OrderJMSConnectorSender orderJMSConnectorSender;
 
     @Autowired
     CustomerRestConnectorRequester customerRestConnectorRequester;
-
-    public Article getArticleByName(String name) {
-        return articleRestConnectorRequester.getArticleByName(name);
-    }
 
     public Article getArticleByArticleId(int articleId) {
         return articleRestConnectorRequester.getArticleByArticleId(articleId);
@@ -44,41 +39,47 @@ public class ShopService {
         return articleRestConnectorRequester.deleteArticleByName(name);
     }
 
-    public Order addOrder(int articleId, int articleQuantity) {
-//        return orderJMSConnectorProvider.addOrder(articleId, articleQuantity, order.getOrderId());
-
-        // TODO: add orderID to customers
-        return null;
-    }
-
     public Order getOrder(String orderId) {
-        return orderJMSConnectorProvider.getOrder(orderId);
+        return orderJMSConnectorSender.getOrder(orderId);
     }
 
     public Order deleteOrder(String orderId) {
-        return orderJMSConnectorProvider.deleteOrder(orderId);
+        return orderJMSConnectorSender.deleteOrder(orderId);
     }
 
-    public void addArticleToCart(Integer customerId, Integer articleId) {
+    public Integer createCustomer(String customerName, String customerAddress) {
+        Customer customer = new Customer(customerName, customerAddress);
+        Customer savedCustomer = customerRestConnectorRequester.addCustomer(customer);
+        return savedCustomer.getCustomerId();
+    }
+
+    public Customer getCustomer(Integer customerId) {
+        return customerRestConnectorRequester.getCustomerByCustomerId(customerId);
+    }
+
+    public Cart addArticleToCart(Integer customerId, Integer articleId, Integer quantity) {
         Article foundArticle = getArticleByArticleId(articleId);
-        Customer customer = customerRestConnectorRequester.getCustomerByCustomerId(customerId);
-        Cart cart = customerRestConnectorRequester.getCustomerByCustomerId(customerId).getCart();
+        Customer customer = getCustomer(customerId);
+        Cart cart = customer.getCart();
         // TODO: maybe add this to customer service
-        cart.addCartItem(foundArticle);
+        cart.addCartItem(foundArticle, quantity);
+
         // update customer
         customer.setCart(cart);
-        Customer updatedCustomer = customerRestConnectorRequester.addCustomer(customer);
-
+        // TODO: change updateCart to addArticleToCart() method in CustomerService
+        Customer updatedCustomer = customerRestConnectorRequester.updateCart(cart, customerId);
+//        Customer updatedCustomer = customerRestConnectorRequester.addCustomer(customer);
+        return updatedCustomer.getCart();
     }
 
     public Order checkOutCart(int customerId) {
         Customer customer = customerRestConnectorRequester.getCustomerByCustomerId(customerId);
         System.out.println(customer.getCustomerId());
         Cart foundCart = customer.getCart();
-        Order order = orderJMSConnectorProvider.createOrder();
+        Order order = orderJMSConnectorSender.createOrder();
         System.out.println(order.getOrderId());
         for (CartItem item : foundCart.getCartItems()) {
-            order = orderJMSConnectorProvider.addOrder(item.getArticleId(), item.getQuantity(), order.getOrderId());
+            order = orderJMSConnectorSender.addOrder(item.getArticleId(), item.getQuantity(), order.getOrderId());
         }
 
         customer = customerRestConnectorRequester.addOrderToCustomer(customerId, order.getOrderId());
@@ -86,11 +87,23 @@ public class ShopService {
         return order;
     }
 
-    // Method-layout:
-    /*
-    getOrderForCustomer()
-    getArticle()
-    addArticleToOrder() (only ArticleID)
-     */
+    public Invoice createInvoice(String orderId) {
+
+        Invoice invoice = new Invoice();
+        Order order = orderJMSConnectorSender.getOrder(orderId);
+
+        for (OrderPosition orderPosition : order.getOrderPositions()) {
+
+            InvoicePosition invoicePosition = new InvoicePosition();
+            invoicePosition.setArticleId(orderPosition.getArticleId());
+            // TODO: add articlePrice again
+//			invoicePosition.setArticlePrice(orderPosition.getArticlePrice());
+            invoicePosition.setArticleQuantity(orderPosition.getArticleQuantity());
+
+            invoice.addInvoicePosition(invoicePosition);
+        }
+
+        return invoice;
+    }
 
 }

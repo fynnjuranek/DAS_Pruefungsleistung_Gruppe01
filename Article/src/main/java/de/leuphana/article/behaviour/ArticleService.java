@@ -50,17 +50,6 @@ public class ArticleService {
         return articleMapper.mapToArticle(savedArticleEntity);
     }
 
-    public Article findArticleByName(String name) {
-        ArticleEntity articleEntity = articleDatabase.findArticleEntityByName(name);
-        Article article = null;
-        if (articleEntity instanceof BookEntity) {
-            article = articleMapper.mapToBook((BookEntity) articleEntity);
-        } else if (articleEntity instanceof CdEntity) {
-            article = articleMapper.mapToCd((CdEntity) articleEntity);
-        }
-        return article;
-    }
-
     public Article findArticleById(int articleId) {
         ArticleEntity articleEntity = articleDatabase.findArticleEntityByArticleId(articleId);
         Article article = null;
