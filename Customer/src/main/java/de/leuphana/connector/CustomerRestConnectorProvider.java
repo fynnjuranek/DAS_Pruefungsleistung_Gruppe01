@@ -1,6 +1,7 @@
 package de.leuphana.connector;
 
 import de.leuphana.customer.behaviour.CustomerService;
+import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.sales.Cart;
 import de.leuphana.shop.structure.sales.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,14 @@ public class CustomerRestConnectorProvider {
     @Autowired
     CustomerService customerService;
 
-//    @RequestMapping("/getCustomer/{name}")
-//    public Customer findCustomerByName(@PathVariable("name") String name) {
-//        return customerService.findCustomerByName(name);
-//    }
-
     @RequestMapping("/getCustomer/{customerId}")
     public Customer findCustomerByCustomerId(@PathVariable("customerId") Integer customerId) {
         return customerService.findCustomerByCustomerId(customerId);
+    }
+
+    @RequestMapping("/createCustomer/{customerName}/{customerAddress}")
+    Customer createCustomer(@PathVariable("customerName") String customerName, @PathVariable("customerAddress") String customerAddress) {
+        return customerService.createCustomer(customerName, customerAddress);
     }
 
     @RequestMapping("/getCustomers")
@@ -36,11 +37,10 @@ public class CustomerRestConnectorProvider {
         return customerService.addOrderToCustomer(customerId, orderId);
     }
 
-    @RequestMapping("/updateCart")
-    public Customer updateCart(@RequestBody Cart cart, @RequestParam Integer customerId) {
-        return customerService.updateCart(cart, customerId);
+    @RequestMapping("/addArticleToCart")
+    Customer addArticleToCart(@RequestParam Integer customerId, @RequestBody Article article, @RequestParam Integer quantity) {
+        return customerService.addArticleToCart(customerId, article, quantity);
     }
-
 
     @RequestMapping("/deleteCustomer/{customerId}")
     public Customer deleteCustomerByCustomerId(@PathVariable("customerId") Integer customerId) {

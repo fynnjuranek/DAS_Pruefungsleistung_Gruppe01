@@ -1,19 +1,15 @@
 package de.leuphana.das;
 
-import com.netflix.discovery.converters.Auto;
 import de.leuphana.shop.behaviour.ShopService;
 import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
-import de.leuphana.shop.structure.sales.Cart;
-import de.leuphana.shop.structure.sales.CartItem;
 import de.leuphana.shop.structure.sales.Customer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -51,8 +47,8 @@ public class ShopServiceTest {
         cd.setArtist("Mac Miller");
         cd.setPrice(16.99f);
         cd.setManufacturer("Warner Records Inc.");
-        addedBook = shopService.addArticle(book);
-        addedCD = shopService.addArticle(cd);
+        addedBook = shopService.addNewArticleToCatalog(book);
+        addedCD = shopService.addNewArticleToCatalog(cd);
         Assertions.assertEquals(book.getName(), addedBook.getName());
     }
 
@@ -62,11 +58,10 @@ public class ShopServiceTest {
         Integer bookQuantity = 4;
         Integer cdQuantity = 2;
         shopService.addArticleToCart(customerId, addedBook.getArticleId(), bookQuantity);
-        Cart cart = shopService.addArticleToCart(customerId, addedCD.getArticleId(), cdQuantity);
+        Customer customer = shopService.addArticleToCart(customerId, addedCD.getArticleId(), cdQuantity);
 
-//        CartItem cartItem = new CartItem();
         Integer numberOfAddedDistinctArticles = 2;
-        Assertions.assertEquals(numberOfAddedDistinctArticles, cart.getNumberOfArticles());
+        Assertions.assertEquals(numberOfAddedDistinctArticles, customer.getCart().getNumberOfArticles());
 
     }
 

@@ -30,6 +30,7 @@ class CustomerServiceTests {
         book.setManufacturer("Penguin Verlag");
         book.setAuthor("Steven Pinker");
         book.setPrice(16.0f);
+        book.setBookCategory(BookCategory.NON_FICTION);
         Book book2 = new Book();
         book2.setArticleId(2);
         book2.setName("Entwickeln von Web-Anwendungen");
@@ -37,8 +38,9 @@ class CustomerServiceTests {
         book2.setBookCategory(BookCategory.POPULAR_SCIENCE);
 
         Cart cart = new Cart();
-        cart.addCartItem(book);
-        cart.addCartItem(book2);
+        Integer articleQuantity = 1;
+        cart.addCartItem(book, articleQuantity);
+        cart.addCartItem(book2, articleQuantity);
 
         Order order = new Order();
         OrderPosition orderPosition = new OrderPosition();
@@ -87,13 +89,15 @@ class CustomerServiceTests {
         Assertions.assertNotNull(foundCustomer);
     }
 
-//    @Test
-//    @org.junit.jupiter.api.Order(3)
-//    void canCustomerBeDeleted() {
-//        Customer deletedCustomer = customerService.deleteCustomerByName(customer.getName());
-//        System.out.println("Deleted customer with name: " + deletedCustomer.getName());
-//        Assertions.assertNotNull(deletedCustomer);
-//    }
+
+    // TODO: customerDeletion needs to be worked on
+    @Test
+    @org.junit.jupiter.api.Order(3)
+    void canCustomerBeDeleted() {
+        Customer deletedCustomer = customerService.deleteCustomerByCustomerId(customer.getCustomerId());
+        System.out.println("Deleted customer with name: " + deletedCustomer.getName());
+        Assertions.assertNotNull(deletedCustomer);
+    }
 
 
 }

@@ -1,7 +1,6 @@
-package de.leuphana.das;
+package de.leuphana.das.connector;
 
 import de.leuphana.connector.CustomerRestConnectorRequester;
-import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
@@ -54,6 +53,30 @@ public class CustomerRestConnectorRequesterTest {
         Assertions.assertNotNull(savedCustomer);
     }
 
+    @Test
+    @Order(3)
+    void canArticleBeAddedToCart() {
+        CD cd = new CD();
+        cd.setArticleId(1);
+        cd.setArtist("Vampire Weekend");
+        cd.setPrice(13.0f);
+        cd.setName("Vampire Weekend");
+        cd.setManufacturer("Test producer");
+        Integer articleQuantity = 5;
+
+        customerRestConnectorRequester.addArticleToCart(savedCustomer.getCustomerId(), book, articleQuantity);
+        customerRestConnectorRequester.addArticleToCart(savedCustomer.getCustomerId(), book2, articleQuantity);
+        Customer customer = customerRestConnectorRequester.addArticleToCart(savedCustomer.getCustomerId(), cd, articleQuantity);
+//        Cart cart = savedCustomer.getCart();
+//        cart.addCartItem(book, 3);
+//        cart.addCartItem(book2, 2);
+//        cart.addCartItem(cd, articleQuantity);
+        System.out.println("New cart: ");
+        for (CartItem cartItem : customer.getCart().getCartItems()) {
+            System.out.println(cartItem.getArticleId());
+            System.out.println(cartItem.getPrice());
+        }
+    }
 
     @Test
     @Order(2)
@@ -68,30 +91,6 @@ public class CustomerRestConnectorRequesterTest {
     }
 
 
-    @Test
-    @Order(3)
-    void canCartBeUpdated() {
-        CD cd = new CD();
-        cd.setArticleId(1);
-        cd.setArtist("Vampire Weekend");
-        cd.setPrice(13.0f);
-        cd.setName("Vampire Weekend");
-        cd.setManufacturer("Test producer");
-        Integer articleQuantity = 5;
-
-
-
-        Cart cart = savedCustomer.getCart();
-        cart.addCartItem(book, 3);
-        cart.addCartItem(book2, 2);
-        cart.addCartItem(cd, articleQuantity);
-        Customer customer = customerRestConnectorRequester.updateCart(cart, savedCustomer.getCustomerId());
-        System.out.println("New cart: ");
-        for (CartItem cartItem : customer.getCart().getCartItems()) {
-            System.out.println(cartItem.getArticleId());
-            System.out.println(cartItem.getPrice());
-        }
-    }
 
     // TODO: Rename updateCart to addArticleToCart -> change method in CustomerService
 

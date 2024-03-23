@@ -10,7 +10,6 @@ public class  CartItemEntity {
     private int cartItemId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cart_entity_id")
     private CartEntity cartEntity;
 
     private Integer articleId;

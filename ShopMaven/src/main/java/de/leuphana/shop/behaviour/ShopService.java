@@ -31,7 +31,7 @@ public class ShopService {
     public List<Article> getArticles() {
         return articleRestConnectorRequester.getArticles();
     }
-    public Article addArticle(Article article) {
+    public Article addNewArticleToCatalog(Article article) {
         return articleRestConnectorRequester.addArticle(article);
     }
 
@@ -48,42 +48,28 @@ public class ShopService {
     }
 
     public Integer createCustomer(String customerName, String customerAddress) {
-        Customer customer = new Customer(customerName, customerAddress);
-        Customer savedCustomer = customerRestConnectorRequester.addCustomer(customer);
-        return savedCustomer.getCustomerId();
+        Customer createdCustomer = customerRestConnectorRequester.createCustomer(customerName, customerAddress);
+        return createdCustomer.getCustomerId();
     }
 
     public Customer getCustomer(Integer customerId) {
         return customerRestConnectorRequester.getCustomerByCustomerId(customerId);
     }
 
-    public Cart addArticleToCart(Integer customerId, Integer articleId, Integer quantity) {
+    public Customer addArticleToCart(Integer customerId, Integer articleId, Integer quantity) {
         Article foundArticle = getArticleByArticleId(articleId);
-        Customer customer = getCustomer(customerId);
-        Cart cart = customer.getCart();
-        // TODO: maybe add this to customer service
-        cart.addCartItem(foundArticle, quantity);
-
-        // update customer
-        customer.setCart(cart);
-        // TODO: change updateCart to addArticleToCart() method in CustomerService
-        Customer updatedCustomer = customerRestConnectorRequester.updateCart(cart, customerId);
-//        Customer updatedCustomer = customerRestConnectorRequester.addCustomer(customer);
-        return updatedCustomer.getCart();
+        return customerRestConnectorRequester.addArticleToCart(customerId, foundArticle, quantity);
     }
 
     public Order checkOutCart(int customerId) {
         Customer customer = customerRestConnectorRequester.getCustomerByCustomerId(customerId);
-        System.out.println(customer.getCustomerId());
-        Cart foundCart = customer.getCart();
+
         Order order = orderJMSConnectorSender.createOrder();
-        System.out.println(order.getOrderId());
-        for (CartItem item : foundCart.getCartItems()) {
-            order = orderJMSConnectorSender.addOrder(item.getArticleId(), item.getQuantity(), order.getOrderId());
+        for (CartItem item : customer.getCart().getCartItems()) {
+            order = orderJMSConnectorSender.addOrderPosition(item.getArticleId(), item.getQuantity(), order.getOrderId());
         }
 
-        customer = customerRestConnectorRequester.addOrderToCustomer(customerId, order.getOrderId());
-//        System.out.println(customer.getCart().getCartItems().size()); // Immer noch null!
+        customerRestConnectorRequester.addOrderToCustomer(customerId, order.getOrderId());
         return order;
     }
 

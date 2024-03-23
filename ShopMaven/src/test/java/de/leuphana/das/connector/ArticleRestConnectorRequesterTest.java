@@ -1,4 +1,4 @@
-package de.leuphana.das;
+package de.leuphana.das.connector;
 
 import de.leuphana.connector.ArticleRestConnectorRequester;
 import de.leuphana.shop.structure.article.Article;

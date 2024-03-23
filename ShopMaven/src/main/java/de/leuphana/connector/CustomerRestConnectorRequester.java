@@ -1,5 +1,6 @@
 package de.leuphana.connector;
 
+import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.sales.Cart;
 import de.leuphana.shop.structure.sales.Customer;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -13,14 +14,17 @@ public interface CustomerRestConnectorRequester {
     @RequestMapping("/getCustomer/{customerId}")
     Customer getCustomerByCustomerId(@PathVariable("customerId") Integer customerId);
 
+    @RequestMapping("/createCustomer/{customerName}/{customerAddress}")
+    Customer createCustomer(@PathVariable("customerName") String customerName, @PathVariable("customerAddress") String customerAddress);
+
     @RequestMapping("/getCustomers")
     List<Customer> getAllCustomers();
 
     @RequestMapping("/addOrderToCustomer/{customerId}/{orderId}")
     Customer addOrderToCustomer(@PathVariable("customerId") Integer customerId, @PathVariable("orderId") String orderId);
 
-    @RequestMapping("/updateCart")
-    Customer updateCart(@RequestBody Cart cart, @RequestParam Integer customerId);
+    @RequestMapping("/addArticleToCart")
+    Customer addArticleToCart(@RequestParam Integer customerId, @RequestBody Article article, @RequestParam Integer quantity);
 
     @PostMapping("/addCustomer")
     Customer addCustomer(@RequestBody Customer customer);

@@ -14,7 +14,6 @@ public class CustomerEntity {
     private String address;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_entity_id")
     private CartEntity cartEntity;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -69,9 +68,5 @@ public class CustomerEntity {
 
     public void setOrderIDs(List<String> orderIDs) {
         this.orderIDs = orderIDs;
-    }
-
-    public void addOrder(String orderID) {
-        this.orderIDs.add(orderID);
     }
 }

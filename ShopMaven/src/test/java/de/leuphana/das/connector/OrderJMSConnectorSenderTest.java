@@ -1,18 +1,11 @@
-package de.leuphana.das;
+package de.leuphana.das.connector;
 
-import de.leuphana.connector.CustomerRestConnectorRequester;
 import de.leuphana.connector.OrderJMSConnectorSender;
 import de.leuphana.shop.behaviour.ShopService;
-import de.leuphana.shop.structure.article.Article;
-import de.leuphana.shop.structure.article.Book;
-import de.leuphana.shop.structure.article.BookCategory;
-import de.leuphana.shop.structure.article.CD;
-import de.leuphana.shop.structure.sales.Cart;
 import de.leuphana.shop.structure.sales.Customer;
 import de.leuphana.shop.structure.sales.OrderPosition;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -53,7 +46,7 @@ public class OrderJMSConnectorSenderTest {
     @Test
     @Order(2)
     void canOrderBeAdded() {
-        addedOrder = orderJMSConnectorSender.addOrder(articleId, articleQuantity, createdOrder.getOrderId());
+        addedOrder = orderJMSConnectorSender.addOrderPosition(articleId, articleQuantity, createdOrder.getOrderId());
         System.out.println("Added article with id: " + articleId + " and quantity: " + articleQuantity + " to order with id: " + addedOrder.getOrderId());
         Assertions.assertNotNull(addedOrder);
     }
@@ -61,7 +54,7 @@ public class OrderJMSConnectorSenderTest {
     @Test
     @Order(3)
     void canOrderBeFound() {
-        de.leuphana.shop.structure.sales.Order foundOrder = shopService.getOrder(addedOrder.getOrderId());
+        de.leuphana.shop.structure.sales.Order foundOrder = orderJMSConnectorSender.getOrder(addedOrder.getOrderId());
         System.out.println("Found order with id: " + foundOrder.getOrderId() + " and number of articles: " + foundOrder.getNumberOfArticles());
         List<OrderPosition> orderPositions = foundOrder.getOrderPositions();
         System.out.println("Articles: ");
@@ -72,9 +65,9 @@ public class OrderJMSConnectorSenderTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void canOrderBeDeleted() {
-        de.leuphana.shop.structure.sales.Order deletedOrder = shopService.deleteOrder(addedOrder.getOrderId());
+        de.leuphana.shop.structure.sales.Order deletedOrder = orderJMSConnectorSender.deleteOrder(addedOrder.getOrderId());
         System.out.println("Deleted order with id: " + deletedOrder.getOrderId());
         Assertions.assertNotNull(deletedOrder);
     }

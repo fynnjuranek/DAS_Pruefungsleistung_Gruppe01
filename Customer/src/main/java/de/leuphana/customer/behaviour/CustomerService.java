@@ -5,6 +5,7 @@ import de.leuphana.customer.structure.database.entity.CustomerEntity;
 import de.leuphana.customer.structure.database.CustomerDatabase;
 
 import de.leuphana.customer.structure.database.mapper.CustomerMapper;
+import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.sales.Cart;
 import de.leuphana.shop.structure.sales.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,27 +23,39 @@ public class CustomerService {
     @Autowired
     CustomerMapper customerMapper;
 
-    public Customer addCustomerToDatabase(Customer customer){
+    public Customer createCustomer(String customerName, String customerAddress) {
+        Customer customer = new Customer(customerName, customerAddress);
+        return addCustomerToDatabase(customer);
+    }
 
+    public Customer addCustomerToDatabase(Customer customer){
         CustomerEntity customerEntity = customerMapper.mapToCustomerEntity(customer);
         CartEntity cartEntity = customerMapper.mapToCartEntity(customer.getCart());
         customerEntity.setCartEntity(cartEntity);
+
+        // This is used to set the relationship between CartEntity and CartItemEntity because otherwise
+        // "cartEntity" would be null in cartItemEntity -> it would be deleted (orphan)
+        if (cartEntity.getCartItems() != null) {
+            for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
+                cartItemEntity.setCartEntity(cartEntity);
+            }
+        }
+
         // To be 100% sure that the customer got properly saved!
         CustomerEntity savedCustomer = customerDatabase.save(customerEntity);
         // This needs to be explicitly set because otherwise the cart is null in "mappedCustomer"
         Customer mappedCustomer = customerMapper.mapToCustomer(savedCustomer);
-//        mappedCustomer.getCart().setId(cartEntity.getId());
-//        mappedCustomer.setCart(customerMapper.mapToCart(cartEntity));
-//        System.out.println(mappedCustomer.getCart().getCartItems());
+        mappedCustomer.setCart(customerMapper.mapToCart(cartEntity));
         return mappedCustomer;
     }
 
-    public Cart addArticleToCart(Integer customerId, Integer articleId, Integer articleQuantity){
+
+    public Customer addArticleToCart(Integer customerId, Article article, Integer articleQuantity){
         CustomerEntity customerEntity = customerDatabase.findCustomerEntityByCustomerId(customerId);
-        Cart cart = customerMapper.mapToCart(customerEntity.getCartEntity());
-        // TODO: implement this
-//        cart.addCartItem();
-        return null;
+        CartEntity cartEntity = customerEntity.getCartEntity();
+        Cart cart = customerMapper.mapToCart(cartEntity);
+        cart.addCartItem(article, articleQuantity);
+        return updateCart(cart, customerId);
     }
 
     public Customer addOrderToCustomer(Integer customerId, String orderId) {
@@ -53,9 +66,6 @@ public class CustomerService {
 
         CustomerEntity mappedCustomer = customerMapper.mapToCustomerEntity(customer);
         mappedCustomer.setCartEntity(cartEntity);
-        System.out.println(mappedCustomer.getOrderIDs());
-        System.out.println(cartEntity.getId() + " this should be the id of cartEntity");
-
         return customerMapper.mapToCustomer(customerDatabase.save(mappedCustomer));
     }
 
@@ -63,7 +73,7 @@ public class CustomerService {
         CustomerEntity customerEntity = customerDatabase.findCustomerEntityByCustomerId(customerId);
         // Set the id of normal cart before mapping to entity because otherwise the id will be new generated, and it needs to stay the same!
         cart.setId(customerEntity.getCartEntity().getId());
-        CartEntity cartEntity = customerMapper.mapToCartEntity(cart);
+        CartEntity cartEntity = customerMapper.mapToCartEntity(cart) ;
         System.out.println(cartEntity.getId() + " this should be the id of cartEntity");
         for (CartItemEntity cartItemEntity : cartEntity.getCartItems()) {
             cartItemEntity.setCartEntity(cartEntity);

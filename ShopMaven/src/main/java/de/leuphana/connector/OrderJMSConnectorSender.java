@@ -28,7 +28,7 @@ public class OrderJMSConnectorSender {
     @Autowired
     JmsTemplate jmsTemplate;
 
-    public Order addOrder(int articleId, int articleQuantity, String orderId) {
+    public Order addOrderPosition(int articleId, int articleQuantity, String orderId) {
         Order respondedOrder = jmsTemplate.execute(session -> {
             TemporaryQueue tempQueue = session.createTemporaryQueue();
             MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {

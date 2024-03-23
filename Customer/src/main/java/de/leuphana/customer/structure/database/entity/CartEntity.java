@@ -12,7 +12,7 @@ public class CartEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(mappedBy = "cartEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cartEntity", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<CartItemEntity> cartItems;
 
     private int numberOfArticles;
