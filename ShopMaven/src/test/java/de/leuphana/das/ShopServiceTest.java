@@ -22,7 +22,10 @@ public class ShopServiceTest {
 
     static Article addedBook;
     static Article addedCD;
+
     static Integer customerId;
+
+    static Integer bookQuantity;
 
     @Test
     @Order(1)
@@ -56,13 +59,13 @@ public class ShopServiceTest {
     @Test
     @Order(3)
     void canArticlesBeAddedToCart() {
-        Integer bookQuantity = 4;
+        bookQuantity = 4;
         Integer cdQuantity = 2;
         shopService.addArticleToCart(customerId, addedBook.getArticleId(), bookQuantity);
         Customer customer = shopService.addArticleToCart(customerId, addedCD.getArticleId(), cdQuantity);
 
-        Integer numberOfAddedDistinctArticles = 2;
-        Assertions.assertEquals(numberOfAddedDistinctArticles, customer.getCart().getNumberOfArticles());
+        Integer numberOfArticlesInCart = bookQuantity + cdQuantity;
+        Assertions.assertEquals(numberOfArticlesInCart, customer.getCart().getNumberOfArticles());
 
     }
 
@@ -82,6 +85,19 @@ public class ShopServiceTest {
 
     @Test
     @Order(5)
+    void canArticleQuantityBeDecremented() {
+        Customer customer = shopService.decrementArticleQuantityInCart(customerId, addedBook.getArticleId());
+        Integer newArticleQuantity = 0;
+        for (CartItem cartItem : customer.getCart().getCartItems()) {
+            if (cartItem.getArticleId().equals(addedBook.getArticleId())) {
+                newArticleQuantity = cartItem.getQuantity();
+            }
+        }
+        Assertions.assertEquals(bookQuantity - 1, newArticleQuantity);
+    }
+
+    @Test
+    @Order(6)
     void canCheckOutCartBeCreated() {
         de.leuphana.shop.structure.sales.Order order = shopService.checkOutCart(customerId);
         // This is explicitly for the newest order we added to the customer.

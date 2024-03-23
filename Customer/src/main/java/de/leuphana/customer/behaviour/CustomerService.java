@@ -77,6 +77,14 @@ public class CustomerService {
         return customerMapper.mapToCustomer(customerDatabase.save(mappedCustomer));
     }
 
+    public Customer decrementArticleQuantityInCart(Integer customerId, Integer articleId) {
+        CustomerEntity customerEntity = customerDatabase.findCustomerEntityByCustomerId(customerId);
+        CartEntity cartEntity = customerEntity.getCartEntity();
+        Cart cart = customerMapper.mapToCart(cartEntity);
+        cart.decrementArticleQuantity(articleId);
+        return updateCart(cart, customerId);
+    }
+
 
     public Customer findCustomerByCustomerId(Integer customerId) {
         CustomerEntity customerEntity = customerDatabase.findCustomerEntityByCustomerId(customerId);

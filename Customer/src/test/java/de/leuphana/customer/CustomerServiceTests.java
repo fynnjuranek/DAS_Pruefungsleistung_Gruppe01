@@ -22,9 +22,11 @@ class CustomerServiceTests {
 
     static Customer customer;
 
+    static Book book;
+
     @BeforeAll
     static void beforeAll() {
-        Book book = new Book();
+        book = new Book();
         book.setArticleId(1);
         book.setName("THINKING, FAST AND SLOW");
         book.setManufacturer("Penguin Verlag");
@@ -89,10 +91,24 @@ class CustomerServiceTests {
         Assertions.assertNotNull(foundCustomer);
     }
 
-
-    // TODO: customerDeletion needs to be worked on
     @Test
     @org.junit.jupiter.api.Order(3)
+    void canArticleBeRemovedFromCart() {
+        Customer foundCustomer = customerService.findCustomerByCustomerId(customer.getCustomerId());
+        customerService.removeArticleFromCart(foundCustomer.getCustomerId(), book.getArticleId());
+        boolean isRemoved = true;
+        for (CartItem cartItem : customer.getCart().getCartItems()) {
+            if (cartItem.getArticleId().equals(book.getArticleId())) {
+                isRemoved = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(isRemoved);
+    }
+
+
+    @Test
+    @org.junit.jupiter.api.Order(4)
     void canCustomerBeDeleted() {
         Customer deletedCustomer = customerService.deleteCustomerByCustomerId(customer.getCustomerId());
         System.out.println("Deleted customer with name: " + deletedCustomer.getName());

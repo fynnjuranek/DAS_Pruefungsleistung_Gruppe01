@@ -36,6 +36,11 @@ public class CustomerRestConnectorProvider {
         return customerService.addOrderToCustomer(customerId, orderId);
     }
 
+    @RequestMapping("/decrementArticleQuantity/{customerId}/{articleId}")
+    public Customer decrementArticleQuantityInCart(@PathVariable("customerId") Integer customerId, @PathVariable("articleId") Integer articleId) {
+        return customerService.decrementArticleQuantityInCart(customerId, articleId);
+    }
+
 
     @RequestMapping("/removeArticleFromCart/{customerId}/{articleId}")
     Customer removeArticleFromCart(@PathVariable("customerId") Integer customerId, @PathVariable("articleId") Integer articleId) {

@@ -29,13 +29,14 @@ public class Cart {
 		}
 		cartItem.setQuantity(articleQuantity);
 		cartItems.add(cartItem);
-		numberOfArticles++;
+		numberOfArticles += articleQuantity;
 	}
 
 	public void deleteCartItem(int articleId) {
 		for (CartItem cartItem : cartItems) {
 			if (cartItem.getArticleId() == (articleId)) {
 				cartItems.remove(cartItem);
+				numberOfArticles -= cartItem.getQuantity();
 				break;
 			}
 		}
