@@ -26,6 +26,8 @@ public interface CustomerRestConnectorRequester {
     @RequestMapping("/addArticleToCart")
     Customer addArticleToCart(@RequestParam Integer customerId, @RequestBody Article article, @RequestParam Integer quantity);
 
+    @RequestMapping("/removeArticleFromCart/{customerId}/{articleId}")
+    Customer removeArticleFromCart(@PathVariable("customerId") Integer customerId, @PathVariable("articleId") Integer articleId);
     @PostMapping("/addCustomer")
     Customer addCustomer(@RequestBody Customer customer);
 

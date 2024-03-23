@@ -61,6 +61,10 @@ public class ShopService {
         return customerRestConnectorRequester.addArticleToCart(customerId, foundArticle, quantity);
     }
 
+    public Customer removeArticleFromCart(Integer customerId, Integer articleId) {
+        return customerRestConnectorRequester.removeArticleFromCart(customerId, articleId);
+    }
+
     public Order checkOutCart(int customerId) {
         Customer customer = customerRestConnectorRequester.getCustomerByCustomerId(customerId);
 

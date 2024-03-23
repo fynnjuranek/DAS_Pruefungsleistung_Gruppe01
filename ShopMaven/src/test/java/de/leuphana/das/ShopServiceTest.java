@@ -5,6 +5,7 @@ import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
+import de.leuphana.shop.structure.sales.CartItem;
 import de.leuphana.shop.structure.sales.Customer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,20 @@ public class ShopServiceTest {
 
     @Test
     @Order(4)
+    void canArticleBeRemovedFromCart() {
+        Customer customer = shopService.removeArticleFromCart(customerId, addedCD.getArticleId());
+        boolean isRemoved = true;
+        for (CartItem cartItem : customer.getCart().getCartItems()) {
+            if (cartItem.getArticleId().equals(addedCD.getArticleId())) {
+                isRemoved = false;
+                break;
+            }
+        }
+        Assertions.assertTrue(isRemoved);
+    }
+
+    @Test
+    @Order(5)
     void canCheckOutCartBeCreated() {
         de.leuphana.shop.structure.sales.Order order = shopService.checkOutCart(customerId);
         // This is explicitly for the newest order we added to the customer.

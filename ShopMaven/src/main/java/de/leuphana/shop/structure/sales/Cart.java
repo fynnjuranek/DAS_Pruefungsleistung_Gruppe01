@@ -35,11 +35,10 @@ public class Cart {
 	public void deleteCartItem(int articleId) {
 		for (CartItem cartItem : cartItems) {
 			if (cartItem.getArticleId() == (articleId)) {
-				cartItems.remove(cartItem.getCartItemId());
+				cartItems.remove(cartItem);
 				break;
 			}
 		}
-
 	}
 
 	public void decrementArticleQuantity(Integer articleId) {
