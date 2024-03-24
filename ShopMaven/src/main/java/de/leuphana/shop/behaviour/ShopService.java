@@ -39,10 +39,6 @@ public class ShopService {
         return articleRestConnectorRequester.deleteArticleByName(name);
     }
 
-    public Order getOrder(String orderId) {
-        return orderJMSConnectorSender.getOrder(orderId);
-    }
-
     public Order deleteOrder(String orderId) {
         return orderJMSConnectorSender.deleteOrder(orderId);
     }
@@ -89,8 +85,10 @@ public class ShopService {
 
             InvoicePosition invoicePosition = new InvoicePosition();
             invoicePosition.setArticleId(orderPosition.getArticleId());
-            // TODO: add articlePrice again
-//			invoicePosition.setArticlePrice(orderPosition.getArticlePrice());
+
+            // Retrieve articlePrice from ArticleDatabase, because order shouldn't know anything about articles
+            Float articlePrice = getArticleByArticleId(orderPosition.getArticleId()).getPrice();
+			invoicePosition.setArticlePrice(articlePrice);
             invoicePosition.setArticleQuantity(orderPosition.getArticleQuantity());
 
             invoice.addInvoicePosition(invoicePosition);

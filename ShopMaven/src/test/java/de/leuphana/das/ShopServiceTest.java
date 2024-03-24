@@ -5,12 +5,15 @@ import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
+import de.leuphana.shop.structure.billing.Invoice;
+import de.leuphana.shop.structure.billing.InvoicePosition;
 import de.leuphana.shop.structure.sales.CartItem;
 import de.leuphana.shop.structure.sales.Customer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -108,6 +111,31 @@ public class ShopServiceTest {
 
         Assertions.assertEquals(order.getOrderId(), addedOrderIdOfCustomer);
     }
+
+    @Test
+    @Order(7)
+    void canInvoiceBeCreated() {
+        List<String> orderIDs = shopService.getCustomer(customerId).getOrderIDs();
+        List<Invoice> invoices = new ArrayList<>();
+        for (String orderID : orderIDs) {
+            invoices.add(shopService.createInvoice(orderID));
+        }
+        System.out.println("Created Invoices with invoice-positions: ");
+        for (Invoice invoice : invoices) {
+            int i = 1;
+            for (InvoicePosition invoicePosition : invoice.getAllInvoicePositions()) {
+                System.out.println("Invoice position: " + i++);
+                System.out.println("Article id: " + invoicePosition.getArticleId());
+                System.out.println("Article quantity: " + invoicePosition.getArticleQuantity());
+                System.out.println("Article price: " + invoicePosition.getArticlePrice());
+                System.out.println("Total price: " + invoicePosition.getTotalPrice());
+            }
+        }
+        Assertions.assertFalse(invoices.isEmpty());
+
+    }
+
+    // TODO: add Logging and Tracing!!!
 
 
 }

@@ -1,6 +1,7 @@
 package de.leuphana.shop.structure.billing;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Invoice {
@@ -12,6 +13,10 @@ public class Invoice {
 	
 	public void addInvoicePosition(InvoicePosition invoicePosition) {
 		invoicePositions.put(invoicePosition.getPositionId(), invoicePosition);
+	}
+
+	public List<InvoicePosition> getAllInvoicePositions()  {
+		return invoicePositions.values().stream().toList();
 	}
 
 }
