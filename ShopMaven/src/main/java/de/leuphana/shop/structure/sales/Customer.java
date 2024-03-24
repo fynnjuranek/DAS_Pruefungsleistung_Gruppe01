@@ -1,12 +1,9 @@
 package de.leuphana.shop.structure.sales;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Customer {
-	private static Integer lastGeneratedCustomerId = 0;
 
 	private Integer customerId;
 	private String name;
@@ -19,9 +16,8 @@ public class Customer {
 	}
 
 	public Customer(Cart cart) {
-		this.customerId = ++lastGeneratedCustomerId;
 		this.cart = cart;
-		orderIDs = new ArrayList<String>();
+		orderIDs = new ArrayList<>();
 	}
 
 	public Customer(String name, String address) {

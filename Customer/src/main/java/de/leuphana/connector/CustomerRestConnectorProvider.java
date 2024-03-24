@@ -53,10 +53,8 @@ public class CustomerRestConnectorProvider {
         return customerService.addArticleToCart(customerId, article, quantity);
     }
 
-
-
     @RequestMapping("/deleteCustomer/{customerId}")
-    public Customer deleteCustomerByCustomerId(@PathVariable("customerId") Integer customerId) {
+    public boolean deleteCustomerByCustomerId(@PathVariable("customerId") Integer customerId) {
         return customerService.deleteCustomerByCustomerId(customerId);
     }
 

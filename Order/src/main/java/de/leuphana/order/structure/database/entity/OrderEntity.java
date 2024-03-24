@@ -11,10 +11,10 @@ public class OrderEntity {
 
     @Id
     private String orderId;
-    private List<OrderPositionEntity> orderPositions;
+    private List<OrderPositionEntity> orderPositionEntities;
 
     public OrderEntity() {
-        orderPositions = new ArrayList<OrderPositionEntity>();
+        orderPositionEntities = new ArrayList<>();
     }
 
     public void setOrderId(String orderId) {
@@ -26,14 +26,10 @@ public class OrderEntity {
     }
 
     public List<OrderPositionEntity> getOrderPositionEntities() {
-        return orderPositions;
+        return orderPositionEntities;
     }
 
-    public void setOrderPositionEntities(List<OrderPositionEntity> orderPositions) {
-        this.orderPositions = orderPositions;
+    public void setOrderPositionEntities(List<OrderPositionEntity> orderPositionEntities) {
+        this.orderPositionEntities = orderPositionEntities;
     }
-
-//    public void addOrderPosition(OrderPosition orderPosition) {
-//        this.orderPositions.add(orderPosition);
-//    }
 }

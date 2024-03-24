@@ -1,10 +1,8 @@
-package de.leuphana.das.connector;
+package de.leuphana.connector;
 
-import de.leuphana.connector.CustomerRestConnectorRequester;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
-import de.leuphana.shop.structure.sales.Cart;
 import de.leuphana.shop.structure.sales.CartItem;
 import de.leuphana.shop.structure.sales.Customer;
 import org.junit.jupiter.api.*;
@@ -57,7 +55,7 @@ public class CustomerRestConnectorRequesterTest {
     @Order(3)
     void canArticleBeAddedToCart() {
         CD cd = new CD();
-        cd.setArticleId(1);
+        cd.setArticleId(3);
         cd.setArtist("Vampire Weekend");
         cd.setPrice(13.0f);
         cd.setName("Vampire Weekend");
@@ -92,7 +90,6 @@ public class CustomerRestConnectorRequesterTest {
 
 
 
-    // TODO: Rename updateCart to addArticleToCart -> change method in CustomerService
 
 //    @Test
 //    @Order(4)

@@ -8,7 +8,8 @@ import de.leuphana.article.structure.database.mapper.ArticleMapper;
 import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
 import de.leuphana.shop.structure.article.CD;
-import org.hibernate.dialect.function.array.JsonArrayViaElementArgumentReturnTypeResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,13 @@ public class ArticleService {
     @Autowired
     ArticleMapper articleMapper;
 
+    static final Logger LOGGER = LoggerFactory.getLogger(ArticleService.class);
+
     public Article addArticleToDatabase(Article article) {
         ArticleEntity foundArticleEntity = articleDatabase.findArticleEntityByName(article.getName());
         if (foundArticleEntity != null) {
             articleDatabase.deleteById(foundArticleEntity.getArticleId());
-            // TODO: Right now the articleId is adding up with every article (JPA-Generation), maybe add function to set the articleId after mapping (entity creation).
+            LOGGER.info("Article got deleted out of the database because of duplication. ArticleID: {}", foundArticleEntity.getArticleId());
         }
 
         ArticleEntity articleEntity = null;
@@ -45,6 +48,9 @@ public class ArticleService {
         ArticleEntity savedArticleEntity = null;
         if (articleEntity != null) {
             savedArticleEntity = articleDatabase.save(articleEntity);
+            LOGGER.info("Article with id: {} was added to the database", savedArticleEntity.getArticleId());
+        } else {
+            LOGGER.error("ArticleEntity with name: {} was not added to the database, probably couldn't get properly mapped", article.getName());
         }
 
         return articleMapper.mapToArticle(savedArticleEntity);
@@ -57,6 +63,8 @@ public class ArticleService {
             article = articleMapper.mapToBook((BookEntity) articleEntity);
         } else if (articleEntity instanceof CdEntity) {
             article = articleMapper.mapToCd((CdEntity) articleEntity);
+        } else {
+            LOGGER.error("ArticleEntity with id {} was not able to get mapped!", articleEntity.getArticleId());
         }
         return article;
     }
@@ -69,15 +77,21 @@ public class ArticleService {
                 articles.add(articleMapper.mapToBook((BookEntity) articleEntity));
             } else if (articleEntity instanceof CdEntity) {
                 articles.add(articleMapper.mapToCd((CdEntity) articleEntity));
+            } else {
+                LOGGER.error("ArticleEntity with id {} couldn't get mapped!", articleEntity.getArticleId());
             }
         }
         return articles;
     }
 
-    public Article deleteArticleByName(String name) {
-        ArticleEntity articleEntity = articleDatabase.findArticleEntityByName(name);
-        articleDatabase.deleteById(articleEntity.getArticleId());
-        return articleMapper.mapToArticle(articleEntity);
+    public boolean deleteArticleByArticleId(Integer articleId) {
+        boolean isDeleted = false;
+        articleDatabase.deleteById(articleId);
+        if (articleDatabase.findArticleEntityByArticleId(articleId) == null) {
+            isDeleted = true;
+            LOGGER.info("Article with id: {} was deleted", articleId);
+        }
+        return isDeleted;
     }
 
 }

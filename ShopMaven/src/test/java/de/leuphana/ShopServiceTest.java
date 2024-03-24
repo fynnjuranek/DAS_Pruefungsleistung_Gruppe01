@@ -1,4 +1,4 @@
-package de.leuphana.das;
+package de.leuphana;
 
 import de.leuphana.shop.behaviour.ShopService;
 import de.leuphana.shop.structure.article.Article;
@@ -25,11 +25,14 @@ public class ShopServiceTest {
     ShopService shopService;
 
     static Article addedBook;
+    static Article secondAddedBook;
     static Article addedCD;
 
-    static Integer customerId;
-
     static Integer bookQuantity;
+
+    static de.leuphana.shop.structure.sales.Order order;
+
+    static Integer customerId;
 
     @Test
     @Order(1)
@@ -55,16 +58,45 @@ public class ShopServiceTest {
         cd.setArtist("Mac Miller");
         cd.setPrice(16.99f);
         cd.setManufacturer("Warner Records Inc.");
+        Book secondBook = new Book();
+        secondBook.setName("HOW TO SOLVE IT");
+        secondBook.setManufacturer("Princeton University Press");
+        secondBook.setAuthor("George Polya");
+        secondBook.setPrice(15.55f);
+        secondBook.setBookCategory(BookCategory.POPULAR_SCIENCE);
         addedBook = shopService.addNewArticleToCatalog(book);
+        secondAddedBook = shopService.addNewArticleToCatalog(secondBook);
         addedCD = shopService.addNewArticleToCatalog(cd);
         System.out.println("Added articles to articleDatabase: ");
-        System.out.println("Article id: " + addedBook.getArticleId() + ", name: " + book.getName());
-        System.out.println("Article id: " + addedCD.getArticleId() + ", name: " + cd.getName());
+        System.out.println("Article id: " + addedBook.getArticleId() + ", name: " + addedBook.getName());
+        System.out.println("Article id: " + secondAddedBook.getArticleId() + ", name: " + secondAddedBook.getName());
+        System.out.println("Article id: " + addedCD.getArticleId() + ", name: " + addedCD.getName());
         Assertions.assertEquals(book.getName(), addedBook.getName());
     }
 
     @Test
     @Order(3)
+    void canAllArticlesBeFound() {
+        List<Article> articles = shopService.getArticles();
+        System.out.println("Found articles: ");
+        for (Article article : articles) {
+            System.out.println("Article id: " + article.getArticleId() + ", name: " + article.getName() + ", price: " + article.getPrice());
+        }
+        Assertions.assertNotNull(articles);
+    }
+
+    @Test
+    @Order(4)
+    void canArticleBeDeleted() {
+        boolean isDeleted = shopService.deleteArticleByArticleId(secondAddedBook.getArticleId());
+        if (isDeleted) {
+            System.out.println("Deleted article: " + secondAddedBook.getArticleId() + ", name: " + secondAddedBook.getName());
+        }
+        Assertions.assertTrue(isDeleted);
+    }
+
+    @Test
+    @Order(5)
     void canArticlesBeAddedToCart() {
         bookQuantity = 4;
         Integer cdQuantity = 2;
@@ -78,7 +110,7 @@ public class ShopServiceTest {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     void canArticleBeRemovedFromCart() {
         Customer customer = shopService.removeArticleFromCart(customerId, addedCD.getArticleId());
         boolean isRemoved = true;
@@ -94,7 +126,7 @@ public class ShopServiceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     void canArticleQuantityBeDecremented() {
         Customer customer = shopService.decrementArticleQuantityInCart(customerId, addedBook.getArticleId());
         Integer newArticleQuantity = 0;
@@ -108,9 +140,9 @@ public class ShopServiceTest {
     }
 
     @Test
-    @Order(6)
+    @Order(8)
     void canCheckOutCartBeCreated() {
-        de.leuphana.shop.structure.sales.Order order = shopService.checkOutCart(customerId);
+        order = shopService.checkOutCart(customerId);
         // This is explicitly for the newest order we added to the customer.
         // Otherwise, we would get an error when running this test multiple times
         // because one customer can hold multiple orderIds
@@ -129,7 +161,7 @@ public class ShopServiceTest {
     }
 
     @Test
-    @Order(7)
+    @Order(9)
     void canInvoiceBeCreated() {
         List<String> orderIDs = shopService.getCustomer(customerId).getOrderIDs();
         List<Invoice> invoices = new ArrayList<>();
@@ -151,7 +183,24 @@ public class ShopServiceTest {
 
     }
 
-    // TODO: add Logging and Tracing!!!
+    @Test
+    @Order(10)
+    void canOrderBeDeleted() {
+        boolean isDeleted = shopService.deleteOrder(order.getOrderId());
+        if (isDeleted) {
+            System.out.println("Deleted order with id: " + order.getOrderId());
+        }
+        Assertions.assertTrue(isDeleted);
+    }
 
+    @Test
+    @Order(11)
+    void canCustomerBeDeleted() {
+        boolean isDeleted = shopService.deleteCustomerByCustomerId(customerId);
+        if (isDeleted) {
+            System.out.println("Deleted customer with id: " + customerId);
+        }
+        Assertions.assertTrue(isDeleted);
+    }
 
 }

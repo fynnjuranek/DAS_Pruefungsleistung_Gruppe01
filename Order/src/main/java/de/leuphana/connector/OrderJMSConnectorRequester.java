@@ -4,6 +4,8 @@ import de.leuphana.order.behaviour.OrderService;
 import de.leuphana.shop.structure.sales.Order;
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -17,28 +19,34 @@ public class OrderJMSConnectorRequester {
     @Autowired
     OrderService orderService;
 
+    static final Logger LOGGER = LoggerFactory.getLogger(OrderJMSConnectorRequester.class);
+
     @JmsListener(destination = OrderJMSConnectorSender.ADD_ORDER)
     public Order addOrder(int articleId, Message message) throws JMSException {
         int articleQuantity = message.getIntProperty(OrderJMSConnectorSender.ARTICLE_QUANTITY);
         String orderId = message.getStringProperty(OrderJMSConnectorSender.ORDER_ID);
         // TODO: debugging
         System.out.println("Order added: " + articleId);
+        LOGGER.info("JMS 'addOrder' received in requester, with article id {}", articleId);
         Order order = orderService.addNewOrderToDatabase(orderId, articleId, articleQuantity);
         return order;
     }
 
     @JmsListener(destination = OrderJMSConnectorSender.CREATE_ORDER)
     public Order createOrder() {
+        LOGGER.info("JMS 'createOrder' received");
         return orderService.createNewOrder();
     }
 
     @JmsListener(destination = OrderJMSConnectorSender.GET_ORDER)
     public Order getOrder(String orderId) throws JMSException {
+        LOGGER.info("JMS 'getOrder' received with order id {}", orderId);
         return orderService.findOrderById(orderId);
     }
 
     @JmsListener(destination = OrderJMSConnectorSender.DELETE_ORDER)
-    public Order deleteOrder(String orderId) throws JMSException {
+    public boolean deleteOrder(String orderId) throws JMSException {
+        LOGGER.info("JMS 'deleteOrder' received with order id {}", orderId);
         return orderService.deleteOrderById(orderId);
     }
 }

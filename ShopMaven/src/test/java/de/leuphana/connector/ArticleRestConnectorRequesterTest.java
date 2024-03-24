@@ -1,8 +1,8 @@
-package de.leuphana.das.connector;
+package de.leuphana.connector;
 
-import de.leuphana.connector.ArticleRestConnectorRequester;
 import de.leuphana.shop.structure.article.Article;
 import de.leuphana.shop.structure.article.Book;
+import de.leuphana.shop.structure.article.BookCategory;
 import de.leuphana.shop.structure.article.CD;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class ArticleRestConnectorRequesterTest {
         book.setManufacturer("d.punkt.verlag");
         book.setAuthor("Hanspeter Mössenböck");
         book.setPrice(29.90f);
-        // TODO: add book category
+        book.setBookCategory(BookCategory.POPULAR_SCIENCE);
 
         cd = new CD();
         cd.setName("Vampire Weekend");
@@ -97,9 +97,9 @@ class ArticleRestConnectorRequesterTest {
     @Test
     @Order(6)
     void canArticleBeDeleted() {
-        Article article = articleRestConnectorRequester.deleteArticleByName(cd.getName());
-        System.out.println("Successfully deleted article: " + article.getName());
-        Assertions.assertNotNull(article);
+        boolean isDeleted = articleRestConnectorRequester.deleteArticleByArticleId(addedCD.getArticleId());
+        System.out.println("Successfully deleted article with id: " + addedCD.getArticleId() + " ? " + isDeleted);
+        Assertions.assertTrue(isDeleted);
     }
 
 }

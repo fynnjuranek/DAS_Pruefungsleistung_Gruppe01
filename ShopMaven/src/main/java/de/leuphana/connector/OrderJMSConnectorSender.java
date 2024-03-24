@@ -77,8 +77,8 @@ public class OrderJMSConnectorSender {
         return foundOrder;
     }
 
-    public Order deleteOrder(String orderId) {
-        Order deletedOrder = jmsTemplate.execute(session -> {
+    public boolean deleteOrder(String orderId) {
+        boolean isOrderDeleted = Boolean.TRUE.equals(jmsTemplate.execute(session -> {
             TemporaryQueue tempQueue = session.createTemporaryQueue();
             MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
                 @Override
@@ -88,8 +88,8 @@ public class OrderJMSConnectorSender {
                 }
             };
             jmsTemplate.convertAndSend(OrderJMSConnectorSender.DELETE_ORDER, orderId, messagePostProcessor);
-            return (Order) jmsTemplate.receiveAndConvert(tempQueue);
-        });
-        return deletedOrder;
+            return (Boolean) jmsTemplate.receiveAndConvert(tempQueue);
+        }));
+        return isOrderDeleted;
     }
 }

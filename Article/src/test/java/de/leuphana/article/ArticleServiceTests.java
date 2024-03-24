@@ -99,9 +99,9 @@ class ArticleServiceTests {
     @Test
     @Order(7)
     void canArticleBeDeleted() {
-        Article article = articleService.deleteArticleByName("Vampire Weekend");
-        System.out.println("Successfully deleted article: " + article.getName());
-        Assertions.assertNotNull(article);
+        boolean isDeleted = articleService.deleteArticleByArticleId(addedCD.getArticleId());
+        System.out.println("Successfully deleted article? " + isDeleted);
+        Assertions.assertTrue(isDeleted);
     }
 
 }

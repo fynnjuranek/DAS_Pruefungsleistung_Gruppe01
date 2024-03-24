@@ -6,6 +6,8 @@ import de.leuphana.order.structure.database.entity.OrderPositionEntity;
 import de.leuphana.order.structure.database.mapper.OrderMapper;
 import de.leuphana.shop.structure.sales.Order;
 import de.leuphana.shop.structure.sales.OrderPosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +23,7 @@ public class OrderService {
     @Autowired
     OrderMapper orderMapper;
 
-    public Order addOrderToDatabase(Order order) {
-        OrderEntity orderEntity = orderMapper.mapToOrderEntity(order);
-        OrderEntity savedOrderEntity = orderDatabase.save(orderEntity);
-        return orderMapper.mapToOrder(savedOrderEntity);
-    }
+    static final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
 
     public Order addNewOrderToDatabase(String orderId, Integer articleId, int articleQuantity) {
         OrderEntity orderEntity = orderDatabase.findOrderEntityByOrderId(orderId);
@@ -41,16 +39,18 @@ public class OrderService {
 //        orderPosition.setArticlePrice(articlePrice);
         orderPosition.setArticleQuantity(articleQuantity);
         order.addOrderPosition(orderPosition);
+        LOGGER.info("Added an orderPosition with articleId {} to order with id {}", articleId, orderId);
 
         orderEntity = orderMapper.mapToOrderEntity(order);
         List<OrderPositionEntity> orderPositionEntities = new ArrayList<>();
-        for (OrderPosition orderPosition1 : order.getOrderPositions()) {
-            orderPositionEntities.add(orderMapper.mapToOrderPositionEntity(orderPosition1));
+        for (OrderPosition mappingOrderPosition : order.getOrderPositions()) {
+            orderPositionEntities.add(orderMapper.mapToOrderPositionEntity(mappingOrderPosition));
         }
         orderEntity.setOrderPositionEntities(orderPositionEntities);
 
         // To guarantee that order got properly saved
         OrderEntity savedOrder = orderDatabase.save(orderEntity);
+        LOGGER.info("Added order with  id {} to  orderDatabase", savedOrder.getOrderId());
         List<OrderPosition> savedOrderPositions = new ArrayList<>();
         Order returningOrder = orderMapper.mapToOrder(savedOrder);
         for (OrderPositionEntity orderPositionEntity : savedOrder.getOrderPositionEntities()) {
@@ -91,9 +91,14 @@ public class OrderService {
         return orders;
     }
 
-    public Order deleteOrderById(String orderId) {
-        OrderEntity deletedOrder = orderDatabase.deleteOrderEntityByOrderId(orderId);
-        return orderMapper.mapToOrder(deletedOrder);
+    public boolean deleteOrderById(String orderId) {
+        boolean isDeleted = false;
+        orderDatabase.deleteById(orderId);
+        if (orderDatabase.findOrderEntityByOrderId(orderId) == null) {
+            isDeleted = true;
+            LOGGER.info("Deleted an order with id {}", orderId);
+        }
+        return isDeleted;
     }
 
 }

@@ -35,17 +35,22 @@ public class ShopService {
         return articleRestConnectorRequester.addArticle(article);
     }
 
-    public Article deleteArticleByName(String name) {
-        return articleRestConnectorRequester.deleteArticleByName(name);
+
+    public boolean deleteArticleByArticleId(Integer articleId) {
+        return articleRestConnectorRequester.deleteArticleByArticleId(articleId);
     }
 
-    public Order deleteOrder(String orderId) {
+    public boolean deleteOrder(String orderId) {
         return orderJMSConnectorSender.deleteOrder(orderId);
     }
 
     public Integer createCustomer(String customerName, String customerAddress) {
         Customer createdCustomer = customerRestConnectorRequester.createCustomer(customerName, customerAddress);
         return createdCustomer.getCustomerId();
+    }
+
+    public boolean deleteCustomerByCustomerId(Integer customerId) {
+        return customerRestConnectorRequester.deleteCustomer(customerId);
     }
 
     public Customer getCustomer(Integer customerId) {

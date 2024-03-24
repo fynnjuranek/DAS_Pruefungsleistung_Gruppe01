@@ -1,7 +1,6 @@
 package de.leuphana.connector;
 
 import de.leuphana.shop.structure.article.Article;
-import de.leuphana.shop.structure.sales.Cart;
 import de.leuphana.shop.structure.sales.Customer;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +29,7 @@ public interface CustomerRestConnectorRequester {
     Customer removeArticleFromCart(@PathVariable("customerId") Integer customerId, @PathVariable("articleId") Integer articleId);
 
     @RequestMapping("/decrementArticleQuantity/{customerId}/{articleId}")
-    public Customer decrementArticleQuantityInCart(@PathVariable("customerId") Integer customerId, @PathVariable("articleId") Integer articleId);
+    Customer decrementArticleQuantityInCart(@PathVariable("customerId") Integer customerId, @PathVariable("articleId") Integer articleId);
 
     @PostMapping("/addCustomer")
     Customer addCustomer(@RequestBody Customer customer);

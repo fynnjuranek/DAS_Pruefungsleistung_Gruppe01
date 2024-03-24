@@ -2,8 +2,10 @@ package de.leuphana.order;
 
 import de.leuphana.order.behaviour.OrderService;
 import de.leuphana.order.structure.database.entity.OrderEntity;
+import de.leuphana.order.structure.database.entity.OrderPositionEntity;
 import de.leuphana.order.structure.database.mapper.OrderMapper;
 import de.leuphana.shop.structure.sales.OrderPosition;
+import de.leuphana.shop.structure.sales.Order;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,10 +22,10 @@ class OrderServiceTests {
     @Autowired
     OrderMapper orderMapper;
 
-    static de.leuphana.shop.structure.sales.Order order;
+    static Order order;
 
     @Test
-    @Order(1)
+    @org.junit.jupiter.api.Order(1)
     void canOrderBeAdded() {
         int articleId = 1;
         int articleQuantity = 2;
@@ -35,31 +37,25 @@ class OrderServiceTests {
 
     // TODO: implement tests
     @Test
-    @Order(2)
+    @org.junit.jupiter.api.Order(2)
     void canOrderBeMapped() {
-//        OrderEntity orderEntity = new OrderEntity();
-//        OrderPosition orderPosition = new OrderPosition();
-//        orderPosition.setArticleId(1);
-//        orderPositionEntity.setArticlePrice(16.0f);
-//        orderPosition.setArticleQuantity(2);
-//        OrderPosition orderPosition = orderMapper.mapToOrderPosition(orderPositionEntity);
-//        orderEntity.addOrderPosition(orderPosition);
-//        orderEntity.setCustomerId(1);
         OrderEntity mappedOrderEntity = orderMapper.mapToOrderEntity(order);
         Assertions.assertEquals(order.getOrderId(), mappedOrderEntity.getOrderId());
     }
 
     @Test
-    @Order(3)
+    @org.junit.jupiter.api.Order(3)
     void canOrderPositionBeMapped() {
-
+        OrderPosition orderPosition = order.getOrderPositions().get(0);
+        OrderPositionEntity mappedOrderPositionEntity = orderMapper.mapToOrderPositionEntity(orderPosition);
+        Assertions.assertEquals(orderPosition.getArticleId(), mappedOrderPositionEntity.getArticleId());
     }
 
 
     @Test
-    @Order(4)
+    @org.junit.jupiter.api.Order(4)
     void canOrderBeFound() {
-        de.leuphana.shop.structure.sales.Order foundOrder = orderService.findOrderById(order.getOrderId());
+        Order foundOrder = orderService.findOrderById(order.getOrderId());
         System.out.println("Found order with id: " + foundOrder.getOrderId() + " and number of articles: " + foundOrder.getNumberOfArticles());
         List<OrderPosition> orderPositions = foundOrder.getOrderPositions();
         System.out.println("Articles: ");
@@ -70,11 +66,21 @@ class OrderServiceTests {
     }
 
     @Test
-    @Order(5)
+    @org.junit.jupiter.api.Order(5)
+    void canAllOrdersBeFound() {
+        List<Order> foundOrders = orderService.findAllOrders();
+        System.out.println("Found orders: ");
+        for (Order order : foundOrders) {
+            System.out.println("id: " + order.getOrderId() + ", article quantity: " + order.getNumberOfArticles());
+        }
+    }
+
+    @Test
+    @org.junit.jupiter.api.Order(6)
     void canOrderBeDeleted() {
-        de.leuphana.shop.structure.sales.Order deletedOrder = orderService.deleteOrderById(order.getOrderId());
-        System.out.println("Deleted order with id: " + deletedOrder.getOrderId());
-        Assertions.assertNotNull(deletedOrder);
+        boolean isDeleted = orderService.deleteOrderById(order.getOrderId());
+        System.out.println("Deleted order with id: " + order.getOrderId() + " ? " + isDeleted);
+        Assertions.assertTrue(isDeleted);
     }
 
 }

@@ -12,9 +12,6 @@ import java.util.List;
 @FeignClient("Article")
 public interface ArticleRestConnectorRequester {
 
-//    @RequestMapping("/getArticle/{name}")
-//    Article getArticleByName(@PathVariable("name") String name);
-
     @RequestMapping("/getArticle/{articleId}")
     Article getArticleByArticleId(@PathVariable("articleId") Integer articleId);
 
@@ -25,8 +22,8 @@ public interface ArticleRestConnectorRequester {
     Article addArticle(@RequestBody Article article);
 
 
-    @RequestMapping("/deleteArticle/{name}")
-    Article deleteArticleByName(@PathVariable("name") String name);
+    @RequestMapping("/deleteArticle/{articleId}")
+    boolean deleteArticleByArticleId(@PathVariable("articleId") Integer articleId);
 
 
 
