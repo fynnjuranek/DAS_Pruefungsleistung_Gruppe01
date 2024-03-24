@@ -1,6 +1,5 @@
 package de.leuphana.order.structure.database.entity;
 
-import de.leuphana.shop.structure.sales.OrderPosition;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,21 +11,11 @@ public class OrderEntity {
 
     @Id
     private String orderId;
-    // TODO: CustomerID needs to be deleted i think. The connection should be in customer with "orderID"
-//    private Integer customerId;
-    private List<OrderPosition> orderPositions;
+    private List<OrderPositionEntity> orderPositions;
 
     public OrderEntity() {
-        orderPositions = new ArrayList<OrderPosition>();
+        orderPositions = new ArrayList<OrderPositionEntity>();
     }
-
-//    public int getCustomerId() {
-//        return customerId;
-//    }
-
-//    public void setCustomerId(Integer customerId) {
-//        this.customerId = customerId;
-//    }
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
@@ -36,15 +25,15 @@ public class OrderEntity {
         return orderId;
     }
 
-    public List<OrderPosition> getOrderPositions() {
+    public List<OrderPositionEntity> getOrderPositionEntities() {
         return orderPositions;
     }
 
-    public void setOrderPositions(List<OrderPosition> orderPositions) {
+    public void setOrderPositionEntities(List<OrderPositionEntity> orderPositions) {
         this.orderPositions = orderPositions;
     }
 
-    public void addOrderPosition(OrderPosition orderPosition) {
-        this.orderPositions.add(orderPosition);
-    }
+//    public void addOrderPosition(OrderPosition orderPosition) {
+//        this.orderPositions.add(orderPosition);
+//    }
 }

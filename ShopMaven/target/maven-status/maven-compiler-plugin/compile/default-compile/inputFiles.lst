@@ -16,5 +16,5 @@ F:\dev\Projects\IdeaProjects\DAS_Pruefungsleistung_Gruppe01\ShopMaven\src\main\j
 F:\dev\Projects\IdeaProjects\DAS_Pruefungsleistung_Gruppe01\ShopMaven\src\main\java\de\leuphana\shop\structure\article\CD.java
 F:\dev\Projects\IdeaProjects\DAS_Pruefungsleistung_Gruppe01\ShopMaven\src\main\java\de\leuphana\shop\structure\sales\ArticleComplaintRequest.java
 F:\dev\Projects\IdeaProjects\DAS_Pruefungsleistung_Gruppe01\ShopMaven\src\main\java\de\leuphana\connector\ArticleRestConnectorRequester.java
-F:\dev\Projects\IdeaProjects\DAS_Pruefungsleistung_Gruppe01\ShopMaven\src\main\java\de\leuphana\connector\OrderJMSConnectorProvider.java
+F:\dev\Projects\IdeaProjects\DAS_Pruefungsleistung_Gruppe01\ShopMaven\src\main\java\de\leuphana\connector\OrderJMSConnectorSender.java
 F:\dev\Projects\IdeaProjects\DAS_Pruefungsleistung_Gruppe01\ShopMaven\src\main\java\de\leuphana\shop\structure\sales\Customer.java

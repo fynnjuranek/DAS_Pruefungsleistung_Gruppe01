@@ -69,6 +69,8 @@ class CustomerServiceTests {
     @org.junit.jupiter.api.Order(1)
     void canCustomerBeAdded() {
         Customer addedCustomer = customerService.addCustomerToDatabase(customer);
+        System.out.println("Added customer with id: " + addedCustomer.getCustomerId() + " to customer database");
+        System.out.println("Customer name: " + addedCustomer.getName() + ", address: " + addedCustomer.getAddress());
         Assertions.assertNotNull(addedCustomer);
     }
 
@@ -103,6 +105,8 @@ class CustomerServiceTests {
                 break;
             }
         }
+        System.out.println("Article with id: " + book.getArticleId() + " has been removed from cart of customer id: " + customer.getCustomerId());
+        System.out.println("(variable) isRemoved: " + isRemoved);
         Assertions.assertTrue(isRemoved);
     }
 

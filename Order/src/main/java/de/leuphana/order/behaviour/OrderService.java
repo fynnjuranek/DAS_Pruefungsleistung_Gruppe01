@@ -2,6 +2,7 @@ package de.leuphana.order.behaviour;
 
 import de.leuphana.order.structure.database.OrderDatabase;
 import de.leuphana.order.structure.database.entity.OrderEntity;
+import de.leuphana.order.structure.database.entity.OrderPositionEntity;
 import de.leuphana.order.structure.database.mapper.OrderMapper;
 import de.leuphana.shop.structure.sales.Order;
 import de.leuphana.shop.structure.sales.OrderPosition;
@@ -20,31 +21,44 @@ public class OrderService {
     @Autowired
     OrderMapper orderMapper;
 
-    // TODO: implement OrderService
     public Order addOrderToDatabase(Order order) {
         OrderEntity orderEntity = orderMapper.mapToOrderEntity(order);
         OrderEntity savedOrderEntity = orderDatabase.save(orderEntity);
         return orderMapper.mapToOrder(savedOrderEntity);
     }
 
-    // TODO: I think there needs to be an implementation for List<OrderEntity> with all Orders for a customer
-
     public Order addNewOrderToDatabase(String orderId, Integer articleId, int articleQuantity) {
         OrderEntity orderEntity = orderDatabase.findOrderEntityByOrderId(orderId);
-        // TODO: change this
         // create new order if it doesn't already exist
+        Order order;
         if (orderEntity == null) {
-            orderEntity = new OrderEntity();
-            // TODO: delete customerID
-//            orderEntity.setCustomerId(customerId);
+            order = new Order();
+        } else {
+            order = orderMapper.mapToOrder(orderEntity);
         }
         OrderPosition orderPosition = new OrderPosition();
         orderPosition.setArticleId(articleId);
 //        orderPosition.setArticlePrice(articlePrice);
         orderPosition.setArticleQuantity(articleQuantity);
-        orderEntity.addOrderPosition(orderPosition);
+        order.addOrderPosition(orderPosition);
 
-        return orderMapper.mapToOrder(orderDatabase.save(orderEntity));
+        orderEntity = orderMapper.mapToOrderEntity(order);
+        List<OrderPositionEntity> orderPositionEntities = new ArrayList<>();
+        for (OrderPosition orderPosition1 : order.getOrderPositions()) {
+            orderPositionEntities.add(orderMapper.mapToOrderPositionEntity(orderPosition1));
+        }
+        orderEntity.setOrderPositionEntities(orderPositionEntities);
+
+        // To guarantee that order got properly saved
+        OrderEntity savedOrder = orderDatabase.save(orderEntity);
+        List<OrderPosition> savedOrderPositions = new ArrayList<>();
+        Order returningOrder = orderMapper.mapToOrder(savedOrder);
+        for (OrderPositionEntity orderPositionEntity : savedOrder.getOrderPositionEntities()) {
+            savedOrderPositions.add(orderMapper.mapToOrderPosition(orderPositionEntity));
+        }
+        returningOrder.setOrderPositions(savedOrderPositions);
+
+        return returningOrder;
     }
 
     public Order createNewOrder() {
@@ -54,13 +68,25 @@ public class OrderService {
 
     public Order findOrderById(String orderID) {
         OrderEntity foundOrderEntity = orderDatabase.findById(orderID).get();
-        return orderMapper.mapToOrder(foundOrderEntity);
+        List<OrderPosition> orderPositions = new ArrayList<>();
+        for (OrderPositionEntity orderPositionEntity : foundOrderEntity.getOrderPositionEntities()) {
+            orderPositions.add(orderMapper.mapToOrderPosition(orderPositionEntity));
+        }
+        Order order = orderMapper.mapToOrder(foundOrderEntity);
+        order.setOrderPositions(orderPositions);
+        return order;
     }
 
     public List<Order> findAllOrders() {
         List<Order> orders = new ArrayList<>();
         for (OrderEntity orderEntity : orderDatabase.findAll()) {
-            orders.add(orderMapper.mapToOrder(orderEntity));
+            List<OrderPosition> orderPositions = new ArrayList<>();
+            for (OrderPositionEntity orderPositionEntity : orderEntity.getOrderPositionEntities()) {
+                orderPositions.add(orderMapper.mapToOrderPosition(orderPositionEntity));
+            }
+            Order order = orderMapper.mapToOrder(orderEntity);
+            order.setOrderPositions(orderPositions);
+            orders.add(order);
         }
         return orders;
     }

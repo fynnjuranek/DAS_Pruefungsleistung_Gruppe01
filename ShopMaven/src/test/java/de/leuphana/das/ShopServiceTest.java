@@ -9,6 +9,7 @@ import de.leuphana.shop.structure.billing.Invoice;
 import de.leuphana.shop.structure.billing.InvoicePosition;
 import de.leuphana.shop.structure.sales.CartItem;
 import de.leuphana.shop.structure.sales.Customer;
+import de.leuphana.shop.structure.sales.OrderPosition;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,6 +57,9 @@ public class ShopServiceTest {
         cd.setManufacturer("Warner Records Inc.");
         addedBook = shopService.addNewArticleToCatalog(book);
         addedCD = shopService.addNewArticleToCatalog(cd);
+        System.out.println("Added articles to articleDatabase: ");
+        System.out.println("Article id: " + addedBook.getArticleId() + ", name: " + book.getName());
+        System.out.println("Article id: " + addedCD.getArticleId() + ", name: " + cd.getName());
         Assertions.assertEquals(book.getName(), addedBook.getName());
     }
 
@@ -68,8 +72,9 @@ public class ShopServiceTest {
         Customer customer = shopService.addArticleToCart(customerId, addedCD.getArticleId(), cdQuantity);
 
         Integer numberOfArticlesInCart = bookQuantity + cdQuantity;
+        System.out.println("Added articles with ids: " + addedBook.getArticleId() + ", " + addedCD.getArticleId() +
+                " to cart of customer with id: " + customerId);
         Assertions.assertEquals(numberOfArticlesInCart, customer.getCart().getNumberOfArticles());
-
     }
 
     @Test
@@ -83,6 +88,8 @@ public class ShopServiceTest {
                 break;
             }
         }
+        System.out.println("Removed article id: " + addedCD.getArticleId() + " from cart of customer with id: " + customerId +
+                " (variable = isRemoved = " + isRemoved + ")");
         Assertions.assertTrue(isRemoved);
     }
 
@@ -96,6 +103,7 @@ public class ShopServiceTest {
                 newArticleQuantity = cartItem.getQuantity();
             }
         }
+        System.out.println("Decremented the bookQuantity by one unit from " + bookQuantity + " to " + newArticleQuantity);
         Assertions.assertEquals(bookQuantity - 1, newArticleQuantity);
     }
 
@@ -108,7 +116,15 @@ public class ShopServiceTest {
         // because one customer can hold multiple orderIds
         List<String> orderIDsOfCustomer = shopService.getCustomer(customerId).getOrderIDs();
         String addedOrderIdOfCustomer = orderIDsOfCustomer.get(orderIDsOfCustomer.indexOf(order.getOrderId()));
-
+        System.out.println("Order IDs: ");
+        for (String orderID : orderIDsOfCustomer) {
+            System.out.println("id: " + orderID);
+            System.out.println("OrderPositions: ");
+            for (OrderPosition orderPosition : order.getOrderPositions()) {
+                System.out.println("Article id: " + orderPosition.getArticleId());
+                System.out.println("Article quantity: " + orderPosition.getArticleQuantity());
+            }
+        }
         Assertions.assertEquals(order.getOrderId(), addedOrderIdOfCustomer);
     }
 
